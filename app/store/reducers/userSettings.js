@@ -3,6 +3,7 @@ import * as generalUtil from './generalUtil';
 const ActionNames = {
   SET_SHOW_WELCOME_PAGE: "SET_SHOW_WELCOME_PAGE",
   SET_APP_LOGIN_CONTENT: "SET_APP_LOGIN_CONTENT",
+  CLEAR_APP_LOGIN_CONTENT: "CLEAR_APP_LOGIN_CONTENT",
   ADD_ENCRYPTION_KEY_ITEM: "ADD_ENCRYPTION_KEY_ITEM",
   DELETE_ENCRYPTION_ITEM: "DELETE_ENCRYPTION_KEY_ITEM",
   UPDATE_ENCRYPTION_ITEM: "UPDATE_ENCRYPTION_KEY_ITEM",
@@ -35,6 +36,7 @@ const initialState = {
 
 export const userSettings = {
   reducer: function (state = initialState, action) {
+    console.log("---" + action.type);
     switch (action.type) {
       case ActionNames.SET_APP_LOGIN_CONTENT:
         var appLoginContent = action.appLoginContent;
@@ -51,6 +53,14 @@ export const userSettings = {
           activeEncryptionKey = action.activeEncryptionKey;
         }
         return Object.assign({}, state, { appLoginContent, activeEncryptionKey, encryptionKeyList });
+      case ActionNames.CLEAR_APP_LOGIN_CONTENT:
+        return {
+          activeEncryptionKey: generateRandomString(23),
+          showWelcomePage: true,
+          savedFormContent: [],
+          appLoginContent: null,
+          encryptionKeyList: []
+        };
       case ActionNames.ADD_ENCRYPTION_KEY_ITEM:
         var encryptionKeyList = state.encryptionKeyList;
         var encryptionItem = action.encryptionItem;
@@ -166,6 +176,11 @@ export const userSettings = {
         savedFormContent
       };
     },
+    clearAppLoginContent: function () {
+      return {
+        type: ActionNames.CLEAR_APP_LOGIN_CONTENT
+      }
+    },
     addEncryptionItem: function (encryptionItem) {
       return {
         type: ActionNames.ADD_ENCRYPTION_KEY_ITEM,
@@ -253,6 +268,8 @@ export const addEncryptionItem = (store, encryptionItem) => store.dispatch(userS
 
 
 export const appLoginContent = (store, appLoginContent, activeEncryptionKey, encryptionKeyList, savedFormContent) => store.dispatch(userSettings.actions.appLoginContent(appLoginContent, activeEncryptionKey, encryptionKeyList, savedFormContent));
+
+export const clearAppLoginContent = (store) => store.dispatch(userSettings.actions.clearAppLoginContent());
 
 export const getAppLoginContent = store => store.getState().userSettings.appLoginContent;
 

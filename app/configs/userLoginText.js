@@ -40,6 +40,7 @@ const userLoginText={
   login:{
     title:"Login",
     content:"Your password is not stored anywhere, it is used only for decrypting encryption keys. The encryption keys are used for encrypting/decrypting your data in the app. Note that there is no way to recover your password if you forgot it.",
+    forgotPassword:"I forgot my password",
     password:{
       placeHolder:"Password"
     },

@@ -64,7 +64,7 @@ export default class ViewWithTabMenu extends Component {
     return (
       <View style={tab}>
         <ScrollView horizontal={true} contentContainerStyle={styles.scrollContainer}>
-          {this.props.menuItems.map(this.renderMenuItem.bind(this))}
+          {this.props.menuItems && this.props.menuItems.map(this.renderMenuItem.bind(this))}
         </ScrollView>
       </View>
 

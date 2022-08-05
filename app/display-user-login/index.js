@@ -22,7 +22,7 @@ const initialData={
     revealSecret:true,
     errorMessage:null,
 };
-export default ({onLoggedIn})=>{
+export default ({onLoggedIn, onForgotPassword})=>{
     const [compData,setCompData] = useState(initialData);  
     const setPassword = password => setCompData({...compData,password});
     const setErrorMessage = errorMessage => setCompData({...compData,errorMessage});
@@ -143,6 +143,9 @@ export default ({onLoggedIn})=>{
                         </View>
                         <View style={styles.formItem}>
                             <DialogButton position={"separate"} buttonText={userLoginText.login.buttonText} onPress={login} testID="login"/>
+                        </View>
+                        <View style={styles.formItem}>
+                            <DialogButton position={"separate"} buttonText={userLoginText.login.forgotPassword} onPress={onForgotPassword} testID="forgotPassword"/>
                         </View>
                         <View style={styles.helpContainer}>
                             <Text style={styles.helpText}>

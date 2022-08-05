@@ -25,10 +25,12 @@ import BackupFormData from '../others/backup-data';
 import { ManageFormData } from '../manage-form-data';
 import DisplayUserLogin from '../display-user-login';
 import OthersView from '../others/others-view';
+import ForgotPassword from '../forgot-password';
 import { ImportEncryptionKeyView } from '../import-encryption-key';
 import { ImportSettingsView } from '../import-settings';
 import { ManageKeysView } from '../others/manage-keys';
 import { QRCodeEncryptionView } from '../qr-code-encryption';
+
 const initialData = {
   render: menusConfig.userLogin.menu,
   codedata: '',
@@ -45,6 +47,7 @@ export default () => {
   const [compData, setCompData] = useState(initialData);
 
   const setRender = render => setCompData({ ...compData, render });
+  const toForgotPassword = () => setRender(menusConfig.forgotPassword.menu);
   const toSleeping = () => setRender(menusConfig.sleeping.menu);
   const toHelpScreen = () => setRender(menusConfig.help.menu);
   const toSettingsScreen = () => setRender(menusConfig.others.menu);
@@ -195,13 +198,14 @@ export default () => {
   }, []);
 
   var menuItems = buildMenuItems();
-
   switch (compData.render) {
     ////dev_case_render////
     case menusConfig.loading.menu:
       return <LoadingScreen message={compData.message} />;
     case menusConfig.userLogin.menu:
-      return <DisplayUserLogin onLoggedIn={onLoggedIn} />;
+      return <DisplayUserLogin onLoggedIn={onLoggedIn} onForgotPassword={toForgotPassword} />;
+    case menusConfig.forgotPassword.menu:
+      return <ForgotPassword goBack={toUserLoginScreen} />;
     case menusConfig.eye.menu:
       return (
         <GlobalInputEye

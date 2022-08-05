@@ -7,6 +7,9 @@ const menusConfig={
     userLogin:{
           menu:{label:"Login"},
     },
+    forgotPassword:{
+      menu:{label:"ForgotPassword"},
+    },
     sleeping:{
        menu:"sleeping",
     },
