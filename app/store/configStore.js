@@ -13,6 +13,7 @@ var reducers = combineReducers({
     userSettings: userSettings.reducer,
     domainFormMappings: domainFormMappings.reducer
 });
+
 const appliedMiddleWare = applyMiddleware(thunk);
 
 const persistConfig = {

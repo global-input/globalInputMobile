@@ -34,7 +34,7 @@ function addStoreLoadCompletedListener(lt) {
     }
 }
 const { store, persistor } = configStore(onStoreLoadCompleted);
-const appdata = new ApplicationSettingsData(store)
+const appdata = new ApplicationSettingsData(store);
 
 
 const formDataUtil = new FormDataUtil();

@@ -130,11 +130,11 @@ export default class ViewWithTabMenu extends Component {
         {this.renderHeader()}
         <View style={contentContainerStyle}>
 
-          <ScrollView>
+          <View>
             {this.renderContent()}
             {this.props.children}
             {this.renderEnd()}
-          </ScrollView>
+          </View>
         </View>
         {this.rendeFloatingIcon()}
         {this.renderTab()}
