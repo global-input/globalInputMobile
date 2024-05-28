@@ -34,7 +34,7 @@ const userLoginText = {
     repeatedPassword: {
       placeHolder: 'Confirm your password',
     },
-    buttonText: 'Setup Password',
+    buttonText: 'Setup',
     content:
       'Your password is not stored anywhere, it is used only for encrypting encryption keys. The encryption keys are used for encrypting/decrypting your data in the app. Note that there is no way to recover your password if you forgot it.',
   },

@@ -49,7 +49,7 @@ var styleData = {
     width: '100%',
     margin: 0,
     padding: 0,
-    paddingBottom: 14,
+    paddingTop: 14,
     paddingBottom: 14,
   },
   textInputContainer: {
