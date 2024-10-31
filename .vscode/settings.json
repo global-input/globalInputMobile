@@ -1,0 +1,14 @@
+{
+  "git.ignoreLimitWarning": true,
+  "editor.rulers": [90],
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "javascript.validate.enable": false,
+  "cSpell.diagnosticLevel": "Hint",
+  "eslint.run": "onSave"
+}
