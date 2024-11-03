@@ -168,7 +168,10 @@ export default class ApplicationSettingsData {
             return decryptedContent;
           }
         } else {
-          console.log('failed to decryp the key:' + ekey.encryptionKey);
+          console.log(
+            'failed to decryp the key:' + encryptionKeyList[i].encryptionKey,
+            userEncryptionKey,
+          );
         }
       } catch (error) {
         console.log('failed to decryp the content with none-active key');
