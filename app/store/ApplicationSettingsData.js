@@ -249,7 +249,7 @@ export default class ApplicationSettingsData {
     return userSettings.getShowWelcomePage(this.store);
   }
   setShowWelcomePage(showWelcomePage) {
-    setShowWelcomePage(this.store, showWelcomePage);
+    userSettings.setShowWelcomePage(this.store, showWelcomePage);
   }
   updateFormData(formId, formData) {
     if (formId && formData && formData.id) {
