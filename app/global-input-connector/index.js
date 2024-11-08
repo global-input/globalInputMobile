@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
-import { View } from 'react-native';
+import React, {useState, useEffect, useRef, useReducer} from 'react';
+import {View} from 'react-native';
 
-import { ViewWithTabMenu, DisplayBlockText } from "../components";
-import { styles } from "./styles";
+import {ViewWithTabMenu, DisplayBlockText} from '../components';
+import {styles} from './styles';
 import * as globalInput from './globalInput';
 import ACT_TYPE from './ACT_TYPE';
 import * as formData from './formData';
@@ -11,13 +11,9 @@ import ExportEncryptedEncryptionKey from './export-encrypted-encryption-key';
 import {DeviceInputView} from './device-input-view';
 import {ImportFormData} from './import-form-data';
 
-
-
-
 const compatibility = 1;
 
-
-export default ({ codedata, toCameraView, menuItems }) => {
+export default ({codedata, toCameraView, menuItems}) => {
   const messageTimerHandler = useRef(null);
   const globalInputConnector = useRef(null);
   const [action, setAction] = useState(formData.loadingData);
@@ -31,150 +27,234 @@ export default ({ codedata, toCameraView, menuItems }) => {
       });
     };
 
-    const onDeviceConnected = initData => setAction(action => formData.initDataAction(initData, action));
+    const onDeviceConnected = initData =>
+      setAction(action => formData.initDataAction(initData, action));
     if (codedata.protocolVersion && codedata.protocolVersion > compatibility) {
-      setAction(action => ({ ...action, actionType: ACT_TYPE.ERROR, title: "Version Incompatible", message: "Please update your Global Input App and try again" }));
+      setAction(action => ({
+        ...action,
+        actionType: ACT_TYPE.ERROR,
+        title: 'Version Incompatible',
+        message: 'Please update your Global Input App and try again',
+      }));
+    } else {
+      globalInput.connect({
+        globalInputConnector,
+        codedata,
+        setAction,
+        onDisconnected,
+        onInput,
+        onDeviceConnected,
+      });
     }
-    else {
-      globalInput.connect({ globalInputConnector, codedata, setAction, onDisconnected, onInput, onDeviceConnected });
-    }
-    return () => globalInput.disconnect({ globalInputConnector });
+    return () => globalInput.disconnect({globalInputConnector});
   }, [codedata]);
 
-  const disconnectFromDevice = () => globalInput.disconnect({ globalInputConnector });
+  const disconnectFromDevice = () =>
+    globalInput.disconnect({globalInputConnector});
 
-  const getGlobalInputParingData = () => globalInput.getPairingData({ globalInputConnector });
+  const getGlobalInputParingData = () =>
+    globalInput.getPairingData({globalInputConnector});
 
+  const sendFieldToDevice = ({field, index}) =>
+    globalInput.sendFieldToDevice({globalInputConnector, field, index});
 
-  const sendFieldToDevice = ({ field, index }) => globalInput.sendFieldToDevice({ globalInputConnector, field, index });
-
-
-  
-
-  const fillContentEncryptionForm = (content, label) => formData.fillContentEncryptionForm({ content, label, setAction, onFieldChanged: sendFieldToDevice });
+  const fillContentEncryptionForm = (content, label) =>
+    formData.fillContentEncryptionForm({
+      content,
+      label,
+      setAction,
+      onFieldChanged: sendFieldToDevice,
+    });
 
   const onDisconnect = () => {
     disconnectFromDevice();
     setAction(formData.sessionEndAction(action));
   };
-  
 
   const renderExportEncryptionKey = () => {
-    return (<ExportEncryptedEncryptionKey onCancel={toDeviceInput} onCompleted={fillContentEncryptionForm} />);
-
+    return (
+      <ExportEncryptedEncryptionKey
+        onCancel={toDeviceInput}
+        onCompleted={fillContentEncryptionForm}
+      />
+    );
   };
-  const switchToDeviceInput = config => setAction(formData.switchToDeviceInput(config));
-  const toDeviceInput = () => setAction({ ...action, actionType: ACT_TYPE.DEVICE_INPUT });
+  const switchToDeviceInput = config =>
+    setAction(formData.switchToDeviceInput(config));
+  const toDeviceInput = () =>
+    setAction({...action, actionType: ACT_TYPE.DEVICE_INPUT});
 
   const onGlobalInputDataChanged = (value, fieldIndex) => {
     try {
-      setAction((action)=>formData.changeGlobalInputFieldAction({
-        action,
-        globalInputdata: action.globalInputdata,
-        fieldIndex,
-        value,
-        onFieldChanged:sendFieldToDevice
-      }));
+      setAction(action =>
+        formData.changeGlobalInputFieldAction({
+          action,
+          globalInputdata: action.globalInputdata,
+          fieldIndex,
+          fieldId: action.globalInputdata.fields[fieldIndex].id,
+          value,
+          onFieldChanged: sendFieldToDevice,
+        }),
+      );
     } catch (error) {
-      printError({
-        notificationMessage: 'failed to set global input field',
+      formData.printError({
+        notificationMessage: 'Failed to set global input field',
         error,
         setAction,
-        messageTimerHandler
+        messageTimerHandler,
       });
     }
-};
+  };
 
-const displayNotificationMessage=(notificationMessage)=>{
-  formData.displayNotificationMessage({ messageTimerHandler, notificationMessage, setAction });
-};
-const onSaveFormData = () => {
-  if (formData.saveFormData(action)) {
-    displayNotificationMessage('data saved');
-  }
-};
-
-const onPairingData = () => {
-  try {
-    fillContentEncryptionForm({
-      content: getGlobalInputParingData(),
-      label: settingsTextConfig.serviceData.title, 
-      setAction, 
-      onFieldChanged:sendFieldToDevice
-    });
-  } catch (error) {
-    printError({
-      notificationMessage: 'failed to retrieve the settings data',
-      error,
+  const displayNotificationMessage = notificationMessage => {
+    formData.displayNotificationMessage({
+      messageTimerHandler,
+      notificationMessage,
       setAction,
-      messageTimerHandler
     });
-  }
-};
+  };
+  const onSaveFormData = () => {
+    if (formData.saveFormData(action)) {
+      displayNotificationMessage('data saved');
+    }
+  };
 
-const formDataToSave = formData.getFormDataForSaving(action); 
+  const onPairingData = () => {
+    try {
+      fillContentEncryptionForm({
+        content: getGlobalInputParingData(),
+        label: settingsTextConfig.serviceData.title,
+        setAction,
+        onFieldChanged: sendFieldToDevice,
+      });
+    } catch (error) {
+      printError({
+        notificationMessage: 'failed to retrieve the settings data',
+        error,
+        setAction,
+        messageTimerHandler,
+      });
+    }
+  };
+
+  const formDataToSave = formData.getFormDataForSaving(action);
 
   switch (action.actionType) {
     case ACT_TYPE.ERROR:
       return (
-        <ViewWithTabMenu menuItems={menuItems}
-          title="Error">
+        <ViewWithTabMenu menuItems={menuItems} title="Error">
           <View style={styles.contentCenter}>
-            <DisplayBlockText title={action.title}
-              content={action.message} />
+            <DisplayBlockText title={action.title} content={action.message} />
           </View>
         </ViewWithTabMenu>
       );
-    case ACT_TYPE.SESSION_END: return formData.renderSessionEnd({ menuItems });
+    case ACT_TYPE.SESSION_END:
+      return formData.renderSessionEnd({menuItems});
 
-    case ACT_TYPE.MATCHED_FORMS_DATA: return formData.renderFormDataList({ action, setAction, dataRange: 'autofill', messageTimerHandler, onFieldChanged: sendFieldToDevice });
+    case ACT_TYPE.MATCHED_FORMS_DATA:
+      return formData.renderFormDataList({
+        action,
+        setAction,
+        dataRange: 'autofill',
+        messageTimerHandler,
+        onFieldChanged: sendFieldToDevice,
+      });
 
-    case ACT_TYPE.ALL_FORMS_DATA: return formData.renderFormDataList({ action, setAction, dataRange: 'all', messageTimerHandler, onFieldChanged: sendFieldToDevice })
+    case ACT_TYPE.ALL_FORMS_DATA:
+      return formData.renderFormDataList({
+        action,
+        setAction,
+        dataRange: 'all',
+        messageTimerHandler,
+        onFieldChanged: sendFieldToDevice,
+      });
 
-    case ACT_TYPE.SAVE_FORM_DATA: return formData.renderSaveFormData({ action, setAction });
+    case ACT_TYPE.SAVE_FORM_DATA:
+      return formData.renderSaveFormData({action, setAction});
 
-    case ACT_TYPE.ENCRYPT_SECRET: return formData.renderEncryptSecret({ action, setAction, onFieldChanged: sendFieldToDevice, messageTimerHandler });
+    case ACT_TYPE.ENCRYPT_SECRET:
+      return formData.renderEncryptSecret({
+        action,
+        setAction,
+        onFieldChanged: sendFieldToDevice,
+        messageTimerHandler,
+      });
 
-    case ACT_TYPE.MASTER_KEY: return renderExportEncryptionKey();
-    
-    case ACT_TYPE.DEVICE_INPUT: 
-                 return (
-                   <DeviceInputView action={action} setAction={setAction} onFieldChanged={sendFieldToDevice} 
-                   onDisconnect={onDisconnect}
-                   formDataToSave={formDataToSave}
-                   onGlobalInputDataChanged={onGlobalInputDataChanged}
-                    appMenu= {menuItems }
-                    displayNotificationMessage={displayNotificationMessage}
-                    onPairingData={onPairingData}
-                    onSaveFormData={onSaveFormData}
-                    />
-                    );
+    case ACT_TYPE.MASTER_KEY:
+      return renderExportEncryptionKey();
+
+    case ACT_TYPE.DEVICE_INPUT:
+      return (
+        <DeviceInputView
+          action={action}
+          setAction={setAction}
+          onFieldChanged={sendFieldToDevice}
+          onDisconnect={onDisconnect}
+          formDataToSave={formDataToSave}
+          onGlobalInputDataChanged={onGlobalInputDataChanged}
+          appMenu={menuItems}
+          displayNotificationMessage={displayNotificationMessage}
+          onPairingData={onPairingData}
+          onSaveFormData={onSaveFormData}
+        />
+      );
     case ACT_TYPE.IMPORT_FORM_DATA:
-                  return (<ImportFormData action={action} setAction={setAction} onFinish={toDeviceInput}/>);
-    case ACT_TYPE.ENCRYPT_SELECT_KEY: return encryptDecryptData.renderEncryptSelectKey({ action, setAction, onDisconnect });
-    case ACT_TYPE.DECRYPT_SELECT_KEY: return encryptDecryptData.renderDecryptSelectKey({ action, setAction, onDisconnect });
-    case ACT_TYPE.ENCRYPT_SEND_RESULT: return encryptDecryptData.renderEncryptSendResult({ action, setAction, onDisconnect, sendFieldToDevice, onFinish: switchToDeviceInput });
-    case ACT_TYPE.DECRYPT_SEND_RESULT: return encryptDecryptData.renderDecryptSendResult({ action, setAction, onDisconnect, sendFieldToDevice, onFinish: switchToDeviceInput });
-
+      return (
+        <ImportFormData
+          action={action}
+          setAction={setAction}
+          onFinish={toDeviceInput}
+        />
+      );
+    case ACT_TYPE.ENCRYPT_SELECT_KEY:
+      return encryptDecryptData.renderEncryptSelectKey({
+        action,
+        setAction,
+        onDisconnect,
+      });
+    case ACT_TYPE.DECRYPT_SELECT_KEY:
+      return encryptDecryptData.renderDecryptSelectKey({
+        action,
+        setAction,
+        onDisconnect,
+      });
+    case ACT_TYPE.ENCRYPT_SEND_RESULT:
+      return encryptDecryptData.renderEncryptSendResult({
+        action,
+        setAction,
+        onDisconnect,
+        sendFieldToDevice,
+        onFinish: switchToDeviceInput,
+      });
+    case ACT_TYPE.DECRYPT_SEND_RESULT:
+      return encryptDecryptData.renderDecryptSendResult({
+        action,
+        setAction,
+        onDisconnect,
+        sendFieldToDevice,
+        onFinish: switchToDeviceInput,
+      });
 
     case ACT_TYPE.LOADING:
-      return (<ViewWithTabMenu menuItems={menuItems}
-        title="Wait">
-        <View style={styles.contentCenter}>
-          <DisplayBlockText title={action.title}
-            content={action.message} />
-        </View>
-
-      </ViewWithTabMenu>
+      return (
+        <ViewWithTabMenu menuItems={menuItems} title="Wait">
+          <View style={styles.contentCenter}>
+            <DisplayBlockText title={action.title} content={action.message} />
+          </View>
+        </ViewWithTabMenu>
       );
-    default: return (<ViewWithTabMenu menuItems={menuItems}
-      title="Unknown Data">
-      <View style={styles.contentCenter}>
-        <DisplayBlockText title={'Data Error'}
-          content={'The device application connected has sent configuration data that your Global Input App could not understand. You may need to update your app to connect to the device application.'} />
-      </View>
-
-    </ViewWithTabMenu>
-    );
+    default:
+      return (
+        <ViewWithTabMenu menuItems={menuItems} title="Unknown Data">
+          <View style={styles.contentCenter}>
+            <DisplayBlockText
+              title={'Data Error'}
+              content={
+                'The device application connected has sent configuration data that your Global Input App could not understand. You may need to update your app to connect to the device application.'
+              }
+            />
+          </View>
+        </ViewWithTabMenu>
+      );
   }
 };

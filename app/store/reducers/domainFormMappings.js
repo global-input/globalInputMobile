@@ -43,8 +43,7 @@ const transformer = {
     domainsToAttach.forEach(domain => {
       const domainMapping = {domain, formIds: [formId]};
       domainToIds.push(domainMapping);
-
-          });
+    });
     return {...state, domainToIds};
   },
   deleteFormId: (state, formId) => {
@@ -136,7 +135,7 @@ export const domainFormMappings = {
   },
 };
 
-export const saveDomains = ({formData, store})=>{
+export const saveDomains = ({formData, store}) => {
   const domains = generalUtil.buildDomainsFromFormData(formData);
   if (!domains) {
     return;
@@ -146,7 +145,7 @@ export const saveDomains = ({formData, store})=>{
   );
 };
 
-export const updateDomains = ({formData, formId, store})=>{
+export const updateDomains = ({formData, formId, store}) => {
   const domains = generalUtil.buildDomainsFromFormData(formData);
 
   if (!domains) {
@@ -164,9 +163,9 @@ export const updateDomains = ({formData, formId, store})=>{
         formData.id,
         domains,
       ),
-
+    );
+  }
 };
-
 export const deleteFormData = ({formData, store}) => {
   deleteByFormId({formId: formData.id, store});
 };
@@ -174,7 +173,7 @@ export const deleteByFormId = ({formId, store}) => {
   store.dispatch(domainFormMappings.actions.deleteFormId(formId));
 };
 
-export const mergeFormData = ({formData, store})=>{
+export const mergeFormData = ({formData, store}) => {
   const domains = generalUtil.buildDomainsFromFormData(formData);
   if (domains) {
     store.dispatch(
@@ -182,7 +181,7 @@ export const mergeFormData = ({formData, store})=>{
     );
   }
 };
-export const mergeFormDataList = ({store,formDataList}) =>{
+export const mergeFormDataList = ({store, formDataList}) => {
   formDataList.forEach(formData => {
     mergeFormData({formData, store});
   });
@@ -191,7 +190,6 @@ export const mergeFormDataList = ({store,formDataList}) =>{
 export const deleteAll = ({store}) => {
   store.dispatch(domainFormMappings.actions.deleteAllDomains());
 };
-
 
 export const getAllDomainMappingRecords = store =>
   store.getState().domainFormMappings.domainToIds;
