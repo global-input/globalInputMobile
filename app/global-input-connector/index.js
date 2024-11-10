@@ -91,7 +91,7 @@ export default ({codedata, toCameraView, menuItems}) => {
           action,
           globalInputdata: action.globalInputdata,
           fieldIndex,
-          fieldId: action.globalInputdata.fields[fieldIndex].id,
+          fieldId: action.globalInputdata[fieldIndex].id,
           value,
           onFieldChanged: sendFieldToDevice,
         }),
