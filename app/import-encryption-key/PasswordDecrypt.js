@@ -1,41 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, View} from 'react-native';
 
+import {styles} from './styles';
 
-import { styles } from "./styles";
+import {images, manageKeysTextConfig, menusConfig} from '../configs';
 
+import {
+  EditorWithTabMenu,
+  IconButton,
+  TextInputField,
+  DisplayBlockText,
+} from '../components';
 
-
-import { images, manageKeysTextConfig, menusConfig } from "../configs";
-
-import { EditorWithTabMenu, IconButton, TextInputField, DisplayBlockText } from "../components";
-
-import { appdata } from "../store";
-export default ({ codedata, onEncryptionKeyDecrypted, onBack }) => {
-  const [action, setAction] = useState({ codedata, password: '', errorMessage: '' });
-  const setPassword = password => setAction({ ...action, password, errorMessage: "" });
-  const setErrorMessage = errorMessage => setAction({ ...action, errorMessage });
+import {appdata} from '../store';
+export default ({codedata, onEncryptionKeyDecrypted, onBack}) => {
+  const [action, setAction] = useState({
+    codedata,
+    password: '',
+    errorMessage: '',
+  });
+  const setPassword = password =>
+    setAction({...action, password, errorMessage: ''});
+  const setErrorMessage = errorMessage => setAction({...action, errorMessage});
   const decryptWithPassword = () => {
-    var { password, codedata } = action;
+    var {password, codedata} = action;
     if (!password) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordIsmissing);
-    }
-    else {
+    } else {
       try {
-        var encryptionKeyDecrypted = appdata.decryptExportedEncryptionKey(codedata, password);
+        var encryptionKeyDecrypted = appdata.decryptExportedEncryptionKey(
+          codedata,
+          password,
+        );
         if (!encryptionKeyDecrypted) {
           setErrorMessage(manageKeysTextConfig.errorMessages.invalidPassword);
-        }
-        else {
+        } else {
           onEncryptionKeyDecrypted(encryptionKeyDecrypted);
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         setErrorMessage(manageKeysTextConfig.errorMessages.invalidPassword);
       }
     }
-  }
+  };
 
   const renderErrorMessage = () => {
     if (action.errorMessage) {
@@ -44,23 +51,26 @@ export default ({ codedata, onEncryptionKeyDecrypted, onBack }) => {
           <Text style={styles.errorMessage}>{action.errorMessage}</Text>
         </View>
       );
-    }
-    else {
+    } else {
       return null;
     }
-  }
-  const menuItems = [{
-    menu: menusConfig.cancel.menu,
-    onPress: onBack
-  }, {
-    menu: menusConfig.decrypt.menu,
-    onPress: decryptWithPassword
-  }];
+  };
+  const menuItems = [
+    {
+      menu: menusConfig.cancel.menu,
+      onPress: onBack,
+    },
+    {
+      menu: menusConfig.decrypt.menu,
+      onPress: decryptWithPassword,
+    },
+  ];
 
   return (
-    <EditorWithTabMenu title={manageKeysTextConfig.importKey.title}
-      menuItems={menuItems} selected={menusConfig.eye.menu}>
-
+    <EditorWithTabMenu
+      title={manageKeysTextConfig.importKey.title}
+      menuItems={menuItems}
+      selected={menusConfig.eye.menu}>
       <DisplayBlockText content={manageKeysTextConfig.importKey.content} />
 
       <View style={styles.inputContainer}>
@@ -76,10 +86,6 @@ export default ({ codedata, onEncryptionKeyDecrypted, onBack }) => {
       {renderErrorMessage()}
 
       <DisplayBlockText content={manageKeysTextConfig.importKey.content2} />
-
-
     </EditorWithTabMenu>
   );
 };
-
-
