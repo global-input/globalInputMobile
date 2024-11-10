@@ -44,14 +44,14 @@ export const buildInitialData = () => {
 export const exportEncryptionKey = ({action, setAction, onCompleted}) => {
   const setErrorMessage = errorMessage => setAction({...action, errorMessage});
   try {
-    if (!password) {
+    if (!action?.password) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordIsmissing);
-    } else if (password.length < 5) {
+    } else if (action?password?.length < 5) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordTooShort);
     } else {
       var encryptedContent = appdata.exportEncryptionKeyItemWithPassword(
         action.selectedEncryptionKeyItem,
-        password,
+        action?.password,
       );
       var codedataname = manageKeysTextConfig.export.qrcode.title;
       onCompleted(encryptedContent, codedataname);
