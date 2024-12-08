@@ -82,16 +82,7 @@ export default class ApplicationSettingsData {
       codedata.startsWith(this.protectedKeyIdentifier)
     );
   }
-  encryptWithActiveEncryptionKey(secretMessage) {
-    var prefix = generateRandomString(3);
-    var suffix = generateRandomString(7);
-    var activeEncryptionKey = this.getDecryptedActiveEncryptionKey();
-    var encryptedMessage = encrypt(
-      prefix + secretMessage + suffix,
-      activeEncryptionKey + this.encryptionKeyAppendedPart,
-    );
-    return this.encryptedWithEncryptionKeyCodeIdentifier + encryptedMessage;
-  }
+
   decryptEncryptionKeyText(content) {
     var content = content.slice(
       this.encryptionKeyExportedAsTextIdentifier.length,
