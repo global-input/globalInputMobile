@@ -505,13 +505,6 @@ export default class ApplicationSettingsData {
     return content.startsWith && content.startsWith(this.formDataIdentifier);
   }
 
-  exportActiveEncryptionKeyWithPassword(protectionPassword) {
-    var activeEncryptionKey = this.getDecryptedActiveEncryptionKey();
-    return this.exportEncryptionKeyWithPassword(
-      activeEncryptionKey,
-      protectionPassword,
-    );
-  }
   exportEncryptionKeyItemWithPassword(encryptionKeyitem, protectionPassword) {
     var encryptionKeyDecrypted = this.decryptEncryptionKey(encryptionKeyitem);
     if (!encryptionKeyDecrypted) {
