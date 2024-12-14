@@ -10,6 +10,7 @@ import * as encryptDecryptData from './encrypt-decrypt-data';
 import ExportEncryptedEncryptionKey from './export-encrypted-encryption-key';
 import {DeviceInputView} from './device-input-view';
 import {ImportFormData} from './import-form-data';
+import settingsTextConfig from '../configs/settingsTextConfig';
 
 const compatibility = 1;
 
@@ -58,7 +59,7 @@ export default ({codedata, toCameraView, menuItems}) => {
   const sendFieldToDevice = ({field, index}) =>
     globalInput.sendFieldToDevice({globalInputConnector, field, index});
 
-  const fillContentEncryptionForm = (content, label) =>
+  const fillContentEncryptionForm = ({content, label}) =>
     formData.fillContentEncryptionForm({
       content,
       label,
@@ -128,7 +129,7 @@ export default ({codedata, toCameraView, menuItems}) => {
         onFieldChanged: sendFieldToDevice,
       });
     } catch (error) {
-      printError({
+      formData.printError({
         notificationMessage: 'failed to retrieve the settings data',
         error,
         setAction,
