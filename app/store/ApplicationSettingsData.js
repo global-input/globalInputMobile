@@ -11,7 +11,6 @@ const safeDecrypt = function (content, encryptionKey) {
     return decrypt(content, encryptionKey);
   } catch (error) {
     return null;
-    console.log(error);
   }
 };
 
@@ -305,7 +304,6 @@ export default class ApplicationSettingsData {
   hasFormContent() {
     var savedContent = userSettings.getAllForms(this.store);
     return savedContent && savedContent.length;
-    return false;
   }
   cloneFormData(formData) {
     if (!formData) {

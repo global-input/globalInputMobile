@@ -1,153 +1,145 @@
-import platform from "./platform";
-import DeviceDetector from "./DeviceDetector";
-var deviceDector=new DeviceDetector();
+import platform from './platform';
+import DeviceDetector from './DeviceDetector';
+var deviceDector = new DeviceDetector();
 
-const commonStyles ={
+const commonStyles = {
   container: {
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent:"flex-start",
-          alignItems:"center",
-          backgroundColor: "rgba(72,128,237,1)"
-  },
-  overlayContainer:{
     flex: 1,
     flexDirection: 'column',
-    display:"flex",
-    flexDirection:"column",
-    justifyContent:"center",
-    alignItems:"center",
-    width:"100%",
-    height:"100%",
-    position:"absolute",
-    top:88,
-
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'rgba(72,128,237,1)',
   },
-  header:{
-          backgroundColor: "rgba(72,128,237,1)",
-          width:"100%",
-          minHeight: 50,
-          display: "flex",
-          flexDirection: 'row',
-          justifyContent:"space-between",
-          alignItems:"center",
-          margin:0,
-          paddingTop:platform.header.paddingTop,
-          paddingLeft:5,
-          paddingRight:5,
-          paddingBottom:5,
-          width:"100%",
-          borderBottomWidth:1,
-          borderColor:"rgba(80,80,80,0.5)"
+  overlayContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 88,
   },
-  headerItem:{
-        display: "flex",
-        flexDirection: 'row',
-        justifyContent:"flex-start",
-        alignItems:"center",
+  header: {
+    backgroundColor: 'rgba(72,128,237,1)',
+    width: '100%',
+    minHeight: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 0,
+    paddingTop: platform.header.paddingTop,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(80,80,80,0.5)',
   },
-  narrrowHeader:{
-          backgroundColor: 'rgba(255,255,255,0.5)',
-          minHeight: 50,
-          display: "flex",
-          flexDirection: 'row',
-          justifyContent:"center",
-          alignItems:"center",
-          margin:0,
-          paddingTop:5,
-          padding:5,
-          width:"100%"
+  headerItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
-  leftHeader:{
-    flex:1,
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"flex-start"
+  narrrowHeader: {
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    minHeight: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+    paddingTop: 5,
+    padding: 5,
+    width: '100%',
   },
-  fourLeftHeader:{
-    flex:4,
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"flex-start"
+  leftHeader: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
-  rightHeader:{
-    flex:1,
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"flex-end"
+  fourLeftHeader: {
+    flex: 4,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
-  centerHeader:{
-    flex:1,
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"center"
+  rightHeader: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
-
-
-
-  titleText:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        fontFamily: 'Futura-Medium',
-        textAlign:"center",
-        flexWrap:"nowrap",
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"center",
-        alignItems:"center",
-        color:"#FFFFFF"
-
-  },
-  contentContainer:{
-      width:"100%",
-      height:"91%",
-      backgroundColor:'rgba(255, 255, 255, 1)',
-      padding:0,
-      display:"flex",
-      flexDirection: 'column',
-      justifyContent:"flex-start",
-
-  },
-  button:{
-      padding:5,
-      borderRadius: 10,
-      borderWidth:1,
-      borderColor:"rgba(72,128,237,1)",
-      backgroundColor:"white",
-      display:"flex",
-      flexDirection:"row",
-      justifyContent:"center",
-      alignItems:"center",
-      marginLeft:30,
-      marginRight:30,
-      marginTop:10,
-      marginBottom:10,
+  centerHeader: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 
-  buttonText:{
-    color:"rgba(72,128,237,1)",
-    margin:5,
-    fontSize:20,
-    fontFamily:"Futura-Medium",
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Futura-Medium',
+    textAlign: 'center',
+    flexWrap: 'nowrap',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#FFFFFF',
   },
-  formEditField:{
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"flex-start",
-    alignItems:"flex-start",
-    marginRight:20,
-    marginBottom:10,
-    marginTop:10,
+  contentContainer: {
+    width: '100%',
+    height: '91%',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
+  button: {
+    padding: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(72,128,237,1)',
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 10,
+    marginBottom: 10,
   },
 
-  endSpace:{
-      height: 130,
-      width:"100%",
+  buttonText: {
+    color: 'rgba(72,128,237,1)',
+    margin: 5,
+    fontSize: 20,
+    fontFamily: 'Futura-Medium',
+  },
+  formEditField: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginRight: 20,
+    marginBottom: 10,
+    marginTop: 10,
+  },
 
-  }
+  endSpace: {
+    height: 130,
+    width: '100%',
+  },
 };
 
-if(deviceDector.isIphoneX()){
-    commonStyles.header.paddingTop=40;
+if (deviceDector.isIphoneX()) {
+  commonStyles.header.paddingTop = 40;
 }
-export {commonStyles,deviceDector};
+export {commonStyles, deviceDector};

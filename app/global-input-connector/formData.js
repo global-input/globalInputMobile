@@ -1,28 +1,20 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Clipboard} from 'react-native';
-
-import {generateRandomString} from '../global-input-message';
 import {formDataUtil, appdata, domainForms} from '../store';
 import {
   deviceInputTextConfig,
   encryptedQrCodeTextConfig,
-  settingsTextConfig,
   menusConfig,
 } from '../configs';
 
-import {ViewWithTabMenu, DisplayBlockText} from '../components';
+import {ViewWithTabMenu} from '../components';
 
 import {EncryptContentView} from '../qr-code-encryption';
 
-import DeviceInputView from './device-input-view';
 import MessageWithFormData from './message-with-form-data';
 import {ManageFormData} from '../manage-form-data';
 
 import ACT_TYPE from './ACT_TYPE';
 import * as encryptDecryptData from './encrypt-decrypt-data';
-
-import {styles} from './styles';
 
 const MAX_NUMBER_OF_FIELDS = 100;
 
@@ -108,10 +100,10 @@ const changeGlobalInputFields = ({
     return globalInputdata;
   }
   const updatedFields = [];
-  const autoSetDefaultOn = null;
+  let autoSetDefaultOn = null;
 
   globalInputdata.forEach((gfield, index) => {
-    if (index === fieldIndex || (fieldId && fieldId == gfield.id)) {
+    if (index === fieldIndex || (fieldId && fieldId === gfield.id)) {
       if (gfield.autoSetDefaultOn) {
         autoSetDefaultOn = gfield.autoSetDefaultOn;
       }
@@ -215,7 +207,7 @@ export const changeGlobalInputFieldAction = ({
     value,
     onFieldChanged,
   });
-  const actionType = ACT_TYPE.DEVICE_INPUT;
+  let actionType = ACT_TYPE.DEVICE_INPUT;
   if (action.actionType === ACT_TYPE.EXPORT_FORM_DATA) {
     actionType = ACT_TYPE.EXPORT_FORM_DATA; //TODO:do we need to presever actionType?
   }

@@ -1,6 +1,6 @@
-const platform={
-    header:{
-        paddingTop:25
-    }
+const platform = {
+  header: {
+    paddingTop: 25,
+  },
 };
 export default platform;

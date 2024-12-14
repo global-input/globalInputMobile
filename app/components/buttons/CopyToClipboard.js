@@ -1,76 +1,76 @@
-import React, {Component} from 'react'
-import {View, TouchableHighlight, Clipboard} from 'react-native'
+import React, {Component} from 'react';
+import {View, TouchableHighlight, Clipboard} from 'react-native';
 
-import NotificationText from '../display-text/NotificationText'
-import {deviceInputTextConfig} from '../../configs'
+import NotificationText from '../display-text/NotificationText';
+import {deviceInputTextConfig} from '../../configs';
 
 export default class CopyToClipboard extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {notificationMessage: null}
+  constructor(props) {
+    super(props);
+    this.state = {notificationMessage: null};
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.clipboardTimerHandler) {
-      clearTimeout(this.clipboardTimerHandler)
-      this.clipboardTimerHandler = null
+      clearTimeout(this.clipboardTimerHandler);
+      this.clipboardTimerHandler = null;
     }
   }
-  displayNotificationMessage (notificationMessage) {
+  displayNotificationMessage(notificationMessage) {
     this.setState(Object.assign({}, this.state, {notificationMessage}), () => {
       this.clipboardTimerHandler = setTimeout(() => {
         this.setState(
           Object.assign({}, this.state, {notificationMessage: null}),
-        )
-      }, 2000)
-    })
+        );
+      }, 2000);
+    });
   }
-  exportToClipboard () {
-    var content = this.props.content
+  exportToClipboard() {
+    var content = this.props.content;
     if (!content) {
       this.displayNotificationMessage(
         deviceInputTextConfig.clipboardCopyButton.emptyClipboard,
-      )
-      return
+      );
+      return;
     }
     if (this.props.convert) {
       try {
-        content = this.props.convert(content)
+        content = this.props.convert(content);
         if (!content) {
           this.displayNotificationMessage(
             deviceInputTextConfig.clipboardCopyButton.errorConvert,
-          )
-          return
+          );
+          return;
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         this.displayNotificationMessage(
           deviceInputTextConfig.clipboardCopyButton.errorConvert + ':' + error,
-        )
-        return
+        );
+        return;
       }
     }
-    Clipboard.setString(content)
+    Clipboard.setString(content);
     this.displayNotificationMessage(
       deviceInputTextConfig.clipboardCopyButton.notification,
-    )
+    );
   }
-  renderNotificationMessage () {
+  renderNotificationMessage() {
     if (this.state.notificationMessage) {
-      var labelStyle = ''
+      var labelStyle = '';
       if (this.props.white) {
-        labelStyle = 'light'
+        labelStyle = 'light';
       }
       return (
         <NotificationText
           message={this.state.notificationMessage}
           labelStyle={labelStyle}
         />
-      )
+      );
     } else {
-      return null
+      return null;
     }
   }
-  render () {
+  render() {
     return (
       <TouchableHighlight
         onPress={this.exportToClipboard.bind(this)}
@@ -80,6 +80,6 @@ export default class CopyToClipboard extends Component {
           {this.props.children}
         </View>
       </TouchableHighlight>
-    )
+    );
   }
 }
