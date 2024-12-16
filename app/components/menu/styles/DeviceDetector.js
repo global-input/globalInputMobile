@@ -37,7 +37,7 @@ export default class DeviceDetector {
       return this.device;
     }
 
-
+    if (
       this.matchScreenSize(375, 812) ||
       this.matchScreenSize(414, 896) ||
       this.matchScreenSize(390, 844)

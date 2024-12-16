@@ -9,11 +9,9 @@ import {ViewWithTabMenu, DisplayBlockText} from '../../../components';
 
 import {appdata, formDataUtil} from '../../../store';
 
-
-
-const importDecryptionError = "Please first import and activate the encryption key that was used for encrypting the exported content.";
+const importDecryptionError =
+  'Please first import and activate the encryption key that was used for encrypting the exported content.';
 const formDataMessage = ['Press the "Decrypt" button to decrypt the data.'];
-
 
 export const FormContentDataView = ({
   windowTitle,
@@ -55,7 +53,7 @@ export const FormContentDataView = ({
     }
   };
 
-  var menuItems = [{
+  var menuItems = [
     {
       menu: menusConfig.cancel.menu,
       onPress: onBack,
@@ -64,7 +62,7 @@ export const FormContentDataView = ({
       menu: menusConfig.decrypt.menu,
       onPress: decryptFormData,
     },
-
+  ];
 
   var cc = formDataUtil.buldTextContentResolved(
     appdata.getActiveEncryptionKeyItem(),

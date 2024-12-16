@@ -1,16 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  Button,
-  TouchableHighlight,
-  Alert,
-  Switch,
-} from 'react-native';
-import {images} from '../../configs';
+import {Text, View, TouchableHighlight} from 'react-native';
 import {styles} from './styles';
 
 export default class TextButton extends Component {

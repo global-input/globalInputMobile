@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     backgroundColor: 'white',
-    width: '100%',
     margin: 10,
     width: 150,
     height: 50,

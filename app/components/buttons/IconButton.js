@@ -9,7 +9,6 @@ export default class IconButton extends Component {
       this.props.onPress();
     }
   }
-  renderLabel() {}
   renderImage() {
     if (this.props.image) {
       return <Image source={this.props.image} />;

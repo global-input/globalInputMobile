@@ -190,7 +190,7 @@ if (deviceDector.isIphoneX()) {
   stylesData.tabOnTop.paddingTop = 20;
 }
 
-stylesData.menuTextSelected = Object.assign({},stylesData.menuText,{
+stylesData.menuTextSelected = Object.assign({}, stylesData.menuText, {
   fontWeight: 'bold',
 });
 
@@ -199,18 +199,20 @@ stylesData.headerLandscape = Object.assign({}, stylesData.header, {
   paddingLeft: 30,
 });
 
-stylesData.tabOnTopLandscape = Object.assign({},stylesData.tabOnTop,{
+stylesData.tabOnTopLandscape = Object.assign({}, stylesData.tabOnTop, {
   paddingRight: 30,
   paddingLeft: 30,
 });
-stylesData.tabLandscape = Object.assign({},stylesData.tab,{
+stylesData.tabLandscape = Object.assign({}, stylesData.tab, {
   paddingRight: 30,
   paddingLeft: 30,
 });
 
 stylesData.contentContainer.width = deviceDector.getStaticDimension().width;
 
-stylesData.contentContainerLandscape = Object.assign({},stylesData.contentContainer,{
+stylesData.contentContainerLandscape = Object.assign(
+  {},
+  stylesData.contentContainer,
   {
     paddingRight: 30,
     paddingLeft: 35,
@@ -218,7 +220,7 @@ stylesData.contentContainerLandscape = Object.assign({},stylesData.contentContai
   },
 );
 
-stylesData.floatingIconLandscape = Object.assign({},stylesData.floatingIcon,{
+stylesData.floatingIconLandscape = Object.assign({}, stylesData.floatingIcon, {
   right: 50,
 });
 
