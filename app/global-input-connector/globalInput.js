@@ -131,7 +131,7 @@ export const connect = ({
   if (client) {
     options.client = client;
   } else {
-    options.client = 'ginput_' + globalInputConnector.current.connector.client;
+    options.client = 'ginput_' + globalInputConnector.current.client;
     appdata.setClient(options.client);
   }
 
