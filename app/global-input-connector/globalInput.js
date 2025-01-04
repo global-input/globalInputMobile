@@ -62,12 +62,12 @@ export const connect = ({
     disconnect({globalInputConnector});
   };
   const onInputPermissionResult = message => {
-    const setErrorMessage = (title, message) => {
+    const setErrorMessage = (title, errorMessage) => {
       setAction(action => ({
         ...action,
         actionType: ACT_TYPE.ERROR,
         title,
-        message,
+        message: errorMessage,
       }));
     };
     if (!message.allow) {

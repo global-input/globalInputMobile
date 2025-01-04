@@ -17,7 +17,7 @@ import {styles, deviceDector} from './styles';
 import {appdata} from '../store';
 import {TabMenu, IconButton} from '../components';
 
-import {eyeTextConfig, menusConfig, appTextConfig} from '../configs';
+import {eyeTextConfig, menusConfig} from '../configs';
 
 import DisplayMarker from './DisplayMarker';
 import {

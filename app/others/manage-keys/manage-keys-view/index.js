@@ -74,8 +74,7 @@ const getStateFromProps = ({importDecryptedKey}) => {
     } else {
       action.type = ACT_TYPE.IMPORTING_KEY;
     }
-
-        }
+  }
   return action;
 };
 
@@ -93,36 +92,33 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
       ...action,
       selectedEncryptionKeyItem,
       type: ACT_TYPE.DELETING_KEY,
-
+    });
   const onQrCodeSelected = selectedEncryptionKeyItem =>
     setAction({
       ...action,
       selectedEncryptionKeyItem,
       type: ACT_TYPE.PASSWORD_FOR_QR_CODE,
-
+    });
 
   const onClipboardCopySelected = selectedEncryptionKeyItem =>
     setAction({
       ...action,
       selectedEncryptionKeyItem,
       type: ACT_TYPE.PASSWORD_FOR_CLIPBOARD,
+    });
 
   const toClipboardCopyComplete = () =>
     setAction({...action, type: ACT_TYPE.CLIPBOARD_COPY_COMPLETE});
 
-  const loadNextBatchOfItems = action => {
-    var encryptionKeyList = appdata.getEncryptionKeyList();
-    populateItemsInAction(action, encryptionKeyList);
-    setAction({...action});
-  };
   const onEndReached = () => {
     if (!action.endReached) {
-      loadNextBatchOfItems(action);
+      var encryptionKeyList = appdata.getEncryptionKeyList();
+      populateItemsInAction(action, encryptionKeyList);
+      setAction({...action});
     }
   };
 
-
-    const onItemSelected = selectedItem => {
+  const onItemSelected = selectedItem => {
     const selectedEncryptionKeyItem = selectedItem.encryptionKeyItem;
     const type = ACT_TYPE.VIEW_ITEM_DETAILS;
     setAction({...action, selectedEncryptionKeyItem, type});
@@ -171,8 +167,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     }
   };
   const renderItemListItem = ({item}) => {
-
-       return(
+    return (
       <TouchableHighlight
         onPress={() => {
           onItemSelected(item);
@@ -188,18 +183,18 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
               </View>
               {renderActiveIcon(item.encryptionKeyItem)}
             </View>
-
-                  </View>
+          </View>
         </View>
       </TouchableHighlight>
     );
   };
   const renderListItems = () => {
-
-    const defaultMemenus = [{
+    const defaultMemenus = [
+      {
         menu: menusConfig.back.menu,
         onPress: onBack,
       },
+    ];
 
     return (
       <ViewWithTabMenu
@@ -251,7 +246,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
       />
     );
   };
-  const renderViewItemDetails = ()=>{
+  const renderViewItemDetails = () => {
     return (
       <ViewEncryptionKeyDetails
         onBack={toListView}
@@ -287,7 +282,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
       />
     );
   };
-  const renderPasswordForClipboard = () =>{
+  const renderPasswordForClipboard = () => {
     return (
       <PasswordInputView
         encryptionKeyItem={action.selectedEncryptionKeyItem}
@@ -297,19 +292,22 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
         }
         help1={manageKeysTextConfig.export.textContent.password.content1}
         help2={manageKeysTextConfig.export.textContent.password.content2}
-
-            nextStep={displayExportToCliboard}
+        nextStep={displayExportToCliboard}
         onBack={toBackToItemDetails}
       />
     );
   };
   const renderQRCode = () => {
-    var encryptedContent = appdata.exportEncryptionKeyItemWithPassword(action.selectedEncryptionKeyItem,action.password);
+    var encryptedContent = appdata.exportEncryptionKeyItemWithPassword(
+      action.selectedEncryptionKeyItem,
+      action.password,
+    );
     if (!encryptedContent) {
       console.log('failed to decrypt the encryption key');
       return null;
     }
-    var menuItems = [{},{
+    var menuItems = [
+      {},
       {
         menu: menusConfig.ok.menu,
         onPress: toListView,
@@ -331,23 +329,15 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     );
   };
   const renderDisplayClipboardCopy = () => {
-    var encryptedContent = appdata.exportEncryptionKeyItemAsText(action.selectedEncryptionKeyItem,action.password);
+    var encryptedContent = appdata.exportEncryptionKeyItemAsText(
+      action.selectedEncryptionKeyItem,
+      action.password,
+    );
     if (!encryptedContent) {
       console.log('failed to decrypt the encryption key');
       return null;
     }
-    var menuItems = [{
-      {
-        menu: menusConfig.cancel.menu,
-        onPress: toListView,
-      },
-      {
-        menu: menusConfig.clipboardCopy.menu,
-        onPress: () => {
-          onClipboardCopy(encryptedContent);
-        },
-      },
-    ];    
+
     return (
       <ClipboardCopyView
         title={manageKeysTextConfig.export.textContent.clipboard.title}
@@ -360,7 +350,8 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     );
   };
   const renderClipboardCopyComplete = () => {
-    var menuItems = [{},{
+    var menuItems = [
+      {},
       {
         menu: menusConfig.ok.menu,
         onPress: toListView,
@@ -378,7 +369,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
         menuItems={menuItems}
       />
     );
-
+  };
 
   useEffect(() => {
     setAction(getStateFromProps({importDecryptedKey}));
@@ -411,6 +402,4 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     default:
       return null;
   }
-
-
 };
