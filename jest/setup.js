@@ -11,38 +11,65 @@ jest.mock('@react-native-clipboard/clipboard', () => ({
   getString: jest.fn(() => Promise.resolve('mocked clipboard content')),
   setString: jest.fn(),
   hasString: jest.fn(() => Promise.resolve(true)),
-  // Add more mocked methods if needed
 }));
 
-// 3. Partially mock 'react-native' by first importing the real module
-const realRN = jest.requireActual('react-native');
+// 3. Mock 'react-native' by requiring the real module, then overriding pieces
+jest.mock('react-native', () => {
+  // Grab the actual 'react-native' module
+  const RN = jest.requireActual('react-native');
 
-// 3a. Override SettingsManager so it won't crash looking for a native module
-if (!realRN.NativeModules.SettingsManager) {
-  realRN.NativeModules.SettingsManager = {};
-}
-realRN.NativeModules.SettingsManager.settings = {
-  AppleLocale: 'en_US',
-  AppleLanguages: ['en'],
-};
-realRN.NativeModules.SettingsManager.setValues = jest.fn();
+  // --- Fix SettingsManager crash ---
+  if (!RN.NativeModules.SettingsManager) {
+    RN.NativeModules.SettingsManager = {};
+  }
 
-// 3b. Override AppState so addEventListener won't crash
-realRN.AppState = {
-  addEventListener: jest.fn(() => ({remove: jest.fn()})),
-  removeEventListener: jest.fn(),
-  currentState: 'active',
-};
+  // Provide a mock getConstants() so "Settings.ios.js:23:27" doesn't crash
+  RN.NativeModules.SettingsManager.getConstants = jest.fn(() => ({}));
 
-// 3c. Provide a mock version for Platform.constants.reactNativeVersion
-if (realRN.Platform && realRN.Platform.constants) {
-  realRN.Platform.constants.reactNativeVersion = {
-    major: 0,
-    minor: 74,
-    patch: 0,
-    prerelease: null,
+  // Provide default settings if your code checks them:
+  RN.NativeModules.SettingsManager.settings = {
+    AppleLocale: 'en_US',
+    AppleLanguages: ['en'],
   };
-}
 
-// 4. Finally, mock 'react-native' so Jest uses our modified version
-jest.mock('react-native', () => realRN);
+  // Just in case your code calls setValues:
+  RN.NativeModules.SettingsManager.setValues = jest.fn();
+
+  // --- Mock AppState so addEventListener doesn't crash ---
+  RN.AppState = {
+    addEventListener: jest.fn(() => ({remove: jest.fn()})),
+    removeEventListener: jest.fn(),
+    currentState: 'active',
+  };
+
+  // --- Provide a mock version for Platform.constants.reactNativeVersion ---
+  if (RN.Platform && RN.Platform.constants) {
+    RN.Platform.constants.reactNativeVersion = {
+      major: 0,
+      minor: 74,
+      patch: 0,
+      prerelease: null,
+    };
+  }
+
+  // Return a merged object so we keep real RN plus our overrides
+  return {
+    ...RN,
+
+    NativeModules: {
+      ...RN.NativeModules,
+      // If you need to override more native modules, do it here
+      SettingsManager: {
+        ...RN.NativeModules.SettingsManager,
+      },
+    },
+
+    AppState: {
+      ...RN.AppState,
+    },
+
+    Platform: {
+      ...RN.Platform,
+    },
+  };
+});
