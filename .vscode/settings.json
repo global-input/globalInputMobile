@@ -11,6 +11,10 @@
   "javascript.validate.enable": false,
   "cSpell.diagnosticLevel": "Hint",
   "eslint.run": "onSave",
-  "java.configuration.excludeFolders": ["**/node_modules"],
-  "java.project.excludedFolders": ["node_modules"]
+  "java.configuration.excludeFolders": [
+    "**/node_modules"
+  ],
+  "java.project.excludedFolders": [
+    "node_modules"
+  ]
 }
