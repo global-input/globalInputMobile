@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 
 import {globalInputSettings} from './reducers/globalInputSettings';
@@ -23,7 +23,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 export default function configStore(onCompletion) {
   const store = createStore(persistedReducer, appliedMiddleWare);
-  persistor = persistStore(store, null, onCompletion);
+  const persistor = persistStore(store, null, onCompletion);
   return {store, persistor};
 }
 export {generateRandomString};
