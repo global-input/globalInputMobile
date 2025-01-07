@@ -1,0 +1,4 @@
+const qrCode =
+  'AU2FsdGVkX1/P+efNXCNIO9r5h/e4ie3MhmRRFfONlXf9tyw4EGFPJFsc1MIWyGYYqOVp6xQhNBQitTDFKkqd6VZExM4BlZqjgiRXzsM7kbeV8j08sSb1E74kDRcaIqJMP02Y17IlTd9EF3abfEn4GReq7dFp5a1NaHhH0NBAnk7kk3FGE9yKruxV1wpKG5dzxmkWseq/+hds7lqzsTdIJqaI7AEL947/sASqYSNmTuk%3D';
+
+export {qrCode};

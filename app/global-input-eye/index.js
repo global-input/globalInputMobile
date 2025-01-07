@@ -1,4 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
+import useMockQRScanner from '../global-input-test';
 import {
   Text,
   View,
@@ -53,18 +54,6 @@ export default ({
   toGlobalInput,
   toImportSettingsData,
 }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const testContent = {
-        data: 'AU2FsdGVkX1/P+efNXCNIO9r5h/e4ie3MhmRRFfONlXf9tyw4EGFPJFsc1MIWyGYYqOVp6xQhNBQitTDFKkqd6VZExM4BlZqjgiRXzsM7kbeV8j08sSb1E74kDRcaIqJMP02Y17IlTd9EF3abfEn4GReq7dFp5a1NaHhH0NBAnk7kk3FGE9yKruxV1wpKG5dzxmkWseq/+hds7lqzsTdIJqaI7AEL947/sASqYSNmTuk%3D',
-        type: 'QR_CODE',
-      };
-      onCodeDataReceived(testContent);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const camera = useRef(null);
   const lastCodeDataProcessed = useRef(null);
   const [data, setData] = useState(initialState);
@@ -154,6 +143,7 @@ export default ({
 
     connector.processCodeData(codedata, options);
   };
+  useMockQRScanner(onCodeDataReceived);
 
   const renderHeader = () => {
     if (isDisplayMessage()) {
