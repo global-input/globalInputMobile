@@ -1,4 +1,4 @@
 const qrCode =
-  'AU2FsdGVkX1/P+efNXCNIO9r5h/e4ie3MhmRRFfONlXf9tyw4EGFPJFsc1MIWyGYYqOVp6xQhNBQitTDFKkqd6VZExM4BlZqjgiRXzsM7kbeV8j08sSb1E74kDRcaIqJMP02Y17IlTd9EF3abfEn4GReq7dFp5a1NaHhH0NBAnk7kk3FGE9yKruxV1wpKG5dzxmkWseq/+hds7lqzsTdIJqaI7AEL947/sASqYSNmTuk%3D';
+  'https://tnode2.globalinput.co.uk/global-input-app/mobile-app?launchType=qr&session=qn8W9HDVf917K7XPZ&code=m5mp2o7s&url=https%3A%2F%2Ftnode27.globalinput.co.uk';
 
 export {qrCode};

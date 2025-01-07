@@ -43,6 +43,74 @@ const openBrowser = data => {
     Linking.openURL(data.content);
   }
 };
+const parseAppLaunchURL = urlString => {
+  // Basic validation on the URL
+  if (
+    !urlString ||
+    !(urlString.startsWith('http://') || urlString.startsWith('https://')) ||
+    !urlString.includes('global-input-app/mobile-app')
+  ) {
+    return {code: null, session: null, url: null};
+  }
+
+  // Locate any query parameters (after '?')
+  const questionMarkIndex = urlString.indexOf('?');
+  if (questionMarkIndex === -1) {
+    // No query params at all
+    return {code: null, session: null, url: null};
+  }
+
+  // Extract the query string (everything after '?')
+  const queryString = urlString.substring(questionMarkIndex + 1);
+
+  // Split key-value pairs: "key=value"
+  const queryParts = queryString.split('&');
+
+  // Parse into an object
+  const params = {};
+  queryParts.forEach(part => {
+    const [key, value] = part.split('=');
+    // Use decodeURIComponent in case of encoded characters
+    params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+  });
+
+  return {
+    code: params.code || null,
+    session: params.session || null,
+    url: params.url || null,
+  };
+};
+const sendAppLaunchedEvent = (url, session, code) => {
+  // Build the base path for the launched endpoint
+  const baseUrl = url.endsWith('/')
+    ? url + 'global-input/app/launched'
+    : `${url}/global-input/app/launched`;
+
+  // Collect optional query parameters
+  const query = [];
+  if (session) {
+    query.push(`session=${encodeURIComponent(session)}`);
+  }
+  if (code) {
+    query.push(`code=${encodeURIComponent(code)}`);
+  }
+
+  // Only add '?' if we have any query params
+  let finalUrl = baseUrl;
+  if (query.length > 0) {
+    finalUrl += `?${query.join('&')}`;
+  }
+
+  // Send the request
+  fetch(finalUrl)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
 export default ({
   toHelpScreen,
@@ -127,6 +195,15 @@ export default ({
         toImportNotProtectedEncryptionKey(encryptionKeyToBeImported);
         return;
       }
+    }
+    const launchData = parseAppLaunchURL(codedata);
+    if (launchData.url && launchData.session && launchData.code) {
+      setContentAndMessage(
+        'Please scan the QR Code displayed',
+        'Global Input App Launched',
+      );
+      sendAppLaunchedEvent(launchData.url, launchData.session, launchData.code);
+      return;
     }
     var connector = createMessageConnector();
     var codeAES = appdata.getCodeAES();
