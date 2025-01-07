@@ -13,6 +13,7 @@ const ActionNames = {
   DELETE_FORM_DATA: 'DELETE_FORM_DATA',
   MERGE_FORMS: 'MERGE_FORMS',
   RESET_APP: 'RESET_APP',
+  REMEMBERED_PASSWORD: 'rememberedPassword',
 };
 
 export function generateRandomString(length = 10) {
@@ -31,6 +32,7 @@ function createInitialState() {
     savedFormContent: [],
     appLoginContent: null,
     encryptionKeyList: [],
+    rememberedPassword: null,
   };
 }
 
@@ -99,7 +101,10 @@ export const userSettings = {
         return Object.assign({}, state, {
           showWelcomePage: action.showWelcomePage,
         });
-
+      case ActionNames.REMEMBERED_PASSWORD:
+        return Object.assign({}, state, {
+          rememberedPassword: action.rememberedPassword,
+        });
       case ActionNames.MERGE_FORM_DATA:
         var formData = action.formData;
         var processed = false;
@@ -267,6 +272,12 @@ export const userSettings = {
       };
     },
   },
+  rememberPassword: function (rememberedPassword) {
+    return {
+      type: ActionNames.REMEMBERED_PASSWORD,
+      rememberedPassword,
+    };
+  },
 };
 
 export const getEncryptionKeyList = store =>
@@ -346,3 +357,9 @@ export const getFormContentById = (store, formId) =>
 
 export const searchFormDataById = (store, formId) =>
   generalUtil.searchFormDataById(getAllForms(store), formId);
+
+export const rememberPassword = (store, rememberedPassword) =>
+  store.dispatch(userSettings.rememberPassword(rememberedPassword));
+
+export const getRememberedPassword = store =>
+  store.getState().userSettings.rememberedPassword;

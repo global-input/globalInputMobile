@@ -1,73 +1,122 @@
-import React, {useState, useEffect} from 'react'
-import {Text, View, Image, StatusBar} from 'react-native'
-
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import {styles} from './styles'
-
-import {images, userLoginText} from '../configs'
-import {appdata} from '../store'
-import {DialogButton, TextInputField} from '../components'
+import React, {useState, useEffect} from 'react';
+import {Text, View, Image, StatusBar} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Switch} from 'react-native'; // Make sure to install this package
+import {styles} from './styles';
+import {images, userLoginText} from '../configs';
+import {appdata} from '../store';
+import {DialogButton} from '../components';
+import PasswordInputField from './PasswordInputField';
 
 const initialData = {
   password: '',
   repeatedPassword: '',
-  revealSecret: true,
+  visibilityState: {
+    password: false,
+    repeatedPassword: false,
+    loginPassword: false,
+  },
   errorMessage: null,
   resettingApp: false,
-}
+};
+
+const RememberPassword = ({rememberPassword, setRememberPassword}) => {
+  return (
+    <View style={styles.formItem}>
+      <View style={styles.switchContainer}>
+        <Switch
+          value={rememberPassword}
+          onValueChange={setRememberPassword}
+          trackColor={{true: '#FFFFFF', false: '#333333'}}
+          thumbColor={rememberPassword ? '#4880ED' : '#F4F3F4'}
+          ios_backgroundColor="#333333"
+          style={styles.switch}
+        />
+        <Text style={styles.switchLabel}>
+          Remember Password (this will store your password on your device)
+        </Text>
+      </View>
+    </View>
+  );
+};
 
 export default ({onLoggedIn}) => {
-  const [compData, setCompData] = useState(initialData)
-  const setPassword = password => setCompData({...compData, password})
+  const [compData, setCompData] = useState(initialData);
+  const [rememberPassword, setRememberPassword] = useState(false);
+
+  useEffect(() => {
+    const loadRememberPassword = () => {
+      try {
+        const savedPassword = appdata.getRememberedPassword();
+        if (savedPassword) {
+          setCompData(prev => ({...prev, password: savedPassword}));
+          setRememberPassword(true);
+        }
+      } catch (e) {
+        console.log('****error loading remember password', e);
+      }
+    };
+    loadRememberPassword();
+  }, []);
+
+  const setPassword = password => setCompData({...compData, password});
   const setErrorMessage = errorMessage =>
-    setCompData({...compData, errorMessage})
+    setCompData({...compData, errorMessage});
   const setRepeatedPassword = repeatedPassword =>
-    setCompData({...compData, repeatedPassword})
-  const setRevealSecret = revealSecret =>
-    setCompData({...compData, revealSecret})
+    setCompData({...compData, repeatedPassword});
+
+  const toggleFieldVisibility = field => {
+    setCompData({
+      ...compData,
+      visibilityState: {
+        ...compData.visibilityState,
+        [field]: !compData.visibilityState[field],
+      },
+    });
+  };
+
   const setupPassword = () => {
-    var password = compData.password.trim()
-    var repeatedPassword = compData.repeatedPassword.trim()
+    var password = compData.password.trim();
+    var repeatedPassword = compData.repeatedPassword.trim();
     if (!password) {
-      setErrorMessage(userLoginText.errorMessages.settup.missingPassword)
+      setErrorMessage(userLoginText.errorMessages.settup.missingPassword);
     } else if (!repeatedPassword) {
       setErrorMessage(
         userLoginText.errorMessages.settup.missingRepeatedPassword,
-      )
+      );
     } else if (password !== repeatedPassword) {
       setErrorMessage(
         userLoginText.errorMessages.settup.repeatedPasswordNotMatch,
-      )
+      );
     } else {
-      if (appdata.userAppLoginSetup(password)) {
-        onLoggedIn()
+      if (appdata.userAppLoginSetup(password, rememberPassword)) {
+        onLoggedIn();
       } else {
-        setErrorMessage(userLoginText.errorMessages.settup.failedToSetup)
+        setErrorMessage(userLoginText.errorMessages.settup.failedToSetup);
       }
-      return true
     }
-  }
+  };
 
   const login = () => {
-    var password = compData.password.trim()
+    var password = compData.password.trim();
     if (!password) {
-      setErrorMessage(userLoginText.errorMessages.login.missingPassword)
-    } else if (appdata.userAppLogin(password)) {
-      onLoggedIn()
+      setErrorMessage(userLoginText.errorMessages.login.missingPassword);
+    } else if (appdata.userAppLogin(password, rememberPassword)) {
+      onLoggedIn();
     } else {
-      setErrorMessage(userLoginText.errorMessages.login.incorrectPassword)
+      setErrorMessage(userLoginText.errorMessages.login.incorrectPassword);
     }
-  }
-  resetApp = () => {
-    setCompData({...compData, resettingApp: true})
-  }
-  cancelResetApp = () => {
-    setCompData({...compData, resettingApp: false})
-  }
-  confirmResetApp = () => {
-    appdata.resetApp()
-    setCompData({...compData, resettingApp: false})
-  }
+  };
+  const resetApp = () => {
+    setCompData({...compData, resettingApp: true});
+  };
+  const cancelResetApp = () => {
+    setCompData({...compData, resettingApp: false});
+  };
+  const confirmResetApp = () => {
+    appdata.resetApp();
+    setCompData({...compData, resettingApp: false});
+  };
 
   const renderErrorMessage = () => {
     if (compData.errorMessage) {
@@ -75,11 +124,11 @@ export default ({onLoggedIn}) => {
         <View style={styles.formItem}>
           <Text style={styles.errorMessage}>{compData.errorMessage}</Text>
         </View>
-      )
+      );
     } else {
-      return null
+      return null;
     }
-  }
+  };
   const renderLoginSetUpPage = () => {
     return (
       <View style={styles.form}>
@@ -89,27 +138,23 @@ export default ({onLoggedIn}) => {
 
         {renderErrorMessage()}
         <View style={styles.formItem}>
-          <TextInputField
+          <PasswordInputField
             placeholder={userLoginText.setup.password.placeHolder}
             value={compData.password}
-            secureTextEntry={!compData.revealSecret}
-            onChangeTextValue={password => {
-              setPassword(password)
-            }}
-            testID='password'
-            autoCapitalize={'none'}
+            isVisible={compData.visibilityState.password}
+            onToggleVisibility={() => toggleFieldVisibility('password')}
+            onChangeTextValue={setPassword}
+            testID="password"
           />
         </View>
         <View style={styles.formItem}>
-          <TextInputField
+          <PasswordInputField
             placeholder={userLoginText.setup.repeatedPassword.placeHolder}
             value={compData.repeatedPassword}
-            secureTextEntry={!compData.revealSecret}
-            onChangeTextValue={password => {
-              setRepeatedPassword(password)
-            }}
-            testID='repeatPassword'
-            autoCapitalize={'none'}
+            isVisible={compData.visibilityState.repeatedPassword}
+            onToggleVisibility={() => toggleFieldVisibility('repeatedPassword')}
+            onChangeTextValue={setRepeatedPassword}
+            testID="repeatPassword"
           />
         </View>
         <View style={styles.formItem}>
@@ -117,30 +162,32 @@ export default ({onLoggedIn}) => {
             position={'separate'}
             buttonText={userLoginText.setup.buttonText}
             onPress={setupPassword}
-            testID='setupPassword'
+            testID="setupPassword"
           />
         </View>
         <View style={styles.helpContainer}>
-          <Text style={styles.helpText}>{userLoginText.setup.content}</Text>
+          <Text style={styles.helpText}>{userLoginText.login.content}</Text>
         </View>
+        <RememberPassword
+          rememberPassword={rememberPassword}
+          setRememberPassword={setRememberPassword}
+        />
       </View>
-    )
-  }
+    );
+  };
 
   const renderLoginForm = () => {
     return (
       <View style={styles.form}>
         {renderErrorMessage()}
         <View style={styles.formItem}>
-          <TextInputField
+          <PasswordInputField
             placeholder={userLoginText.login.password.placeHolder}
             value={compData.password}
-            secureTextEntry={true}
-            testID='password'
-            onChangeTextValue={password => {
-              setPassword(password)
-            }}
-            autoCapitalize={'none'}
+            isVisible={compData.visibilityState.loginPassword}
+            onToggleVisibility={() => toggleFieldVisibility('loginPassword')}
+            onChangeTextValue={setPassword}
+            testID="password"
           />
         </View>
         <View style={styles.formItem}>
@@ -148,7 +195,7 @@ export default ({onLoggedIn}) => {
             position={'separate'}
             buttonText={userLoginText.login.buttonText}
             onPress={login}
-            testID='login'
+            testID="login"
           />
         </View>
         <View style={styles.helpContainer}>
@@ -162,9 +209,13 @@ export default ({onLoggedIn}) => {
             testID={'resetApp'}
           />
         </View>
+        <RememberPassword
+          rememberPassword={rememberPassword}
+          setRememberPassword={setRememberPassword}
+        />
       </View>
-    )
-  }
+    );
+  };
   const resettingApp = () => {
     return (
       <View style={styles.form}>
@@ -195,32 +246,32 @@ export default ({onLoggedIn}) => {
           />
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   const renderContent = () => {
     if (appdata.isFormDataPasswordProtected()) {
       if (compData.resettingApp) {
-        return resettingApp()
+        return resettingApp();
       } else {
-        return renderLoginForm()
+        return renderLoginForm();
       }
     } else {
-      return renderLoginSetUpPage()
+      return renderLoginSetUpPage();
     }
-  }
+  };
 
   const renderHeader = () => {
-    return <View style={styles.header}></View>
-  }
+    return <View style={styles.header} />;
+  };
   const layoutChanged = event => {
     if (event && event.nativeEvent && event.nativeEvent.layout) {
-      setCompData({...compData})
+      setCompData({...compData});
     }
-  }
+  };
   return (
     <View style={styles.container} onLayout={layoutChanged}>
-      <StatusBar barStyle='light-content' />
+      <StatusBar barStyle="light-content" />
       {renderHeader()}
       <KeyboardAwareScrollView contentContainerStyle={styles.content}>
         <Image style={styles.logo} source={images.logo} />
@@ -228,5 +279,5 @@ export default ({onLoggedIn}) => {
         {renderContent()}
       </KeyboardAwareScrollView>
     </View>
-  )
-}
+  );
+};

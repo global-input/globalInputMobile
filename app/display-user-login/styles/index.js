@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native';
 
-import {deviceDector} from '../../components/menu/styles'
+import {deviceDector} from '../../components/menu/styles';
 
 const stylesData = {
   container: {
@@ -22,7 +22,6 @@ const stylesData = {
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 5,
-    width: '100%',
   },
   logo: {
     marginTop: 30,
@@ -59,7 +58,6 @@ const stylesData = {
     flexWrap: 'wrap',
     width: '100%',
     marginTop: 20,
-    marginBottom: 20,
     marginBottom: 10,
   },
   formItem: {
@@ -108,11 +106,32 @@ const stylesData = {
     fontSize: 16,
     fontFamily: 'Futura-Medium',
     color: '#FFFFFF',
+    marginBottom: 10,
   },
-}
+  switchContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 5,
+    marginBottom: 15,
+  },
+  switch: {
+    transform: [{scale: 0.8}],
+  },
+  switchLabel: {
+    fontSize: 14,
+    fontFamily: 'Futura-Medium',
+    color: '#FFFFFF',
+    marginLeft: 10,
+    flex: 1,
+  },
+};
 
 if (deviceDector.isAndroid()) {
-  stylesData.header.minHeight = 0
+  stylesData.header.minHeight = 0;
 }
-const styles = StyleSheet.create(stylesData)
-export {deviceDector, styles}
+const styles = StyleSheet.create(stylesData);
+export {deviceDector, styles};
