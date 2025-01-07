@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Text, View, Image, StatusBar} from 'react-native';
 
 import {images, menusConfig} from '../../configs';
 import ListFormData from '../list-form-data';
@@ -33,25 +32,24 @@ const getStateFromProps = formDataStorage => {
   return data;
 };
 
-
 export default ({
   formDataStorage,
   menuItems,
   title,
-  displayFormDataProperties
+  displayFormDataProperties,
 }) => {
-  const [data, setData] = useState(()=>getStateFromProps(formDataStorage));
+  const [data, setData] = useState(() => getStateFromProps(formDataStorage));
   const onCreateFormData = () => {
-    setData({...data, type: ACT_TYPE.CREATE_NEW_FORM});;
+    setData({...data, type: ACT_TYPE.CREATE_NEW_FORM});
   };
-  getOnCreateFormData = () => {
+  const getOnCreateFormData = () => {
     if (formDataStorage.createFormData) {
       return onCreateFormData;
     } else {
       return null;
     }
   };
-  createFormData = formData => {
+  const createFormData = formData => {
     formDataStorage.createFormData(formData);
     var newData = {...data};
     if (formData.label && formData.label === data.label) {
@@ -61,37 +59,37 @@ export default ({
       newData.label = '';
     }
     setData(newData);
-  };;
+  };
   const updateFormData = (id, formData) => {
     formDataStorage.updateFormData(id, formData);
     onFormDataSelected(formData);
-  };;
+  };
   const deleteFormData = formData => {
     formDataStorage.deleteFormData(formData);
     setData(getStateFromProps(formDataStorage));
-  };;
+  };
   const toList = () => {
     setData(getStateFromProps(formDataStorage));
-  };;
+  };
   const onFormDataSelected = formData => {
     setData({...data, type: ACT_TYPE.VIEW_FORM_DATA, formData: formData});
-  };;
+  };
   const onLabelSelected = label => {
     var newData = getStateFromProps(formDataStorage);
     newData.type = ACT_TYPE.LABEL_ITEMS_BY_LABEL;
     newData.label = label;
     setData(newData);
-  };;
+  };
   const onEdit = formData => {
     setData({...data, type: ACT_TYPE.EDIT_FORM_DATA, formData: formData});
-  };;
+  };
   const getOnEdit = () => {
     if (formDataStorage.updateFormData) {
       return onEdit;
     } else {
       return null;
     }
-  };;
+  };
   const getOnDelete = () => {
     if (formDataStorage.deleteFormData) {
       return deleteFormData;
@@ -104,10 +102,10 @@ export default ({
     var newData = getStateFromProps(formDataStorage);
     newData.type = ACT_TYPE.LIST_LABELS;
     setData(newData);
-  };;
+  };
   const backToLabel = () => {
     setData({...data, type: ACT_TYPE.LABEL_ITEMS_BY_LABEL});
-  };;
+  };
   const backFromViewData = () => {
     if (
       data.formData &&
@@ -118,7 +116,7 @@ export default ({
     } else {
       toList();
     }
-  };;
+  };
   const backFromCreateData = () => {
     if (data.label) {
       backToLabel();
@@ -133,8 +131,8 @@ export default ({
         menuItems={menuItems}
         onCreateFormData={getOnCreateFormData()}
       />
-    );;
-  };;
+    );
+  };
   const renderItemList = () => {
     var formDataList = formDataStorage.getSavedFormContent();
 
@@ -148,17 +146,17 @@ export default ({
         toListLabels={toListLabels}
       />
     );
-  };;
+  };
   const renderItemListByLabels = () => {
     menuItems = [
       {
         menu: menusConfig.back.menu,
         onPress: toListLabels,
-      }
+      },
     ];
     var formDataList = formDataUtil.searchByLabel(
       formDataStorage.getSavedFormContent(),
-      data.label
+      data.label,
     );
     return (
       <ListFormData
@@ -173,7 +171,7 @@ export default ({
     );
   };
   const renderListFormLabels = () => {
-    var labels = formDataStorage.getAllLabels();    
+    var labels = formDataStorage.getAllLabels();
     return (
       <ListFormLabels
         labels={labels}
@@ -183,7 +181,7 @@ export default ({
         onLabelSelected={onLabelSelected}
       />
     );
-  };;
+  };
   const renderCreateNewFormData = () => {
     return (
       <EditFormData
