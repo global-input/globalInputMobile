@@ -1,73 +1,73 @@
-import React, {Component, PureComponent} from 'react'
-import {Text, TextInput, View, Image, Keyboard} from 'react-native'
+import React, {Component} from 'react';
+import {Text, TextInput, View, Image, Keyboard} from 'react-native';
 
-import {styles, stylesWithNumberOfLines} from './styles'
+import {styles, stylesWithNumberOfLines} from './styles';
 
 export default class TextInputField extends Component {
-  constructor (props) {
-    super(props)
-    this.state = this.getStateFromProps(this.props)
+  constructor(props) {
+    super(props);
+    this.state = this.getStateFromProps(this.props);
   }
-  getStateFromProps (props) {
-    return {focused: false}
+  getStateFromProps(props) {
+    return {focused: false};
   }
-  focus () {
+  focus() {
     if (this.textField) {
-      this.textField.focus()
+      this.textField.focus();
     }
   }
-  onBlur () {
-    this.setState({focused: false})
+  onBlur() {
+    this.setState({focused: false});
     if (this.props.onBlur) {
-      this.props.onBlur()
+      this.props.onBlur();
     }
   }
-  onFocus () {
-    this.setState({focused: true})
+  onFocus() {
+    this.setState({focused: true});
     if (this.props.onFocus) {
-      this.props.onFocus()
+      this.props.onFocus();
     }
   }
-  donePress () {
-    Keyboard.dismiss()
-    this.setState({focused: false})
+  donePress() {
+    Keyboard.dismiss();
+    this.setState({focused: false});
     if (this.textField) {
-      this.textField.blur()
+      this.textField.blur();
     }
     if (this.props.onBlur) {
-      this.props.onBlur()
+      this.props.onBlur();
     }
   }
 
-  renderFocusContent () {
+  renderFocusContent() {
     if (this.state.focused) {
       if (this.props.focusedContent) {
-        return this.props.focusedContent
+        return this.props.focusedContent;
       } else {
-        return null
+        return null;
       }
     } else if (this.props.notFocusedContent) {
-      return this.props.notFocusedContent
+      return this.props.notFocusedContent;
     } else {
-      return null
+      return null;
     }
   }
 
-  renderLabelIcon () {
+  renderLabelIcon() {
     if (this.props.labelIcon) {
-      return <Image source={this.props.labelIcon} style={styles.labelIcon} />
+      return <Image source={this.props.labelIcon} style={styles.labelIcon} />;
     } else {
-      return null
+      return null;
     }
   }
-  renderlabel () {
+  renderlabel() {
     if (this.props.value && this.props.placeholder) {
-      return <Text style={styles.label}>{this.props.placeholder}</Text>
+      return <Text style={styles.label}>{this.props.placeholder}</Text>;
     } else {
-      return null
+      return null;
     }
   }
-  renderOneline () {
+  renderOneline() {
     return (
       <View style={styles.fieldContainer}>
         {this.renderLabelIcon()}
@@ -78,12 +78,12 @@ export default class TextInputField extends Component {
             style={styles.inputText}
             secureTextEntry={this.props.secureTextEntry}
             editable={this.props.editable}
-            underlineColorAndroid='white'
+            underlineColorAndroid="white"
             value={this.props.value}
             onBlur={this.onBlur.bind(this)}
             onFocus={this.onFocus.bind(this)}
             ref={textField => {
-              this.textField = textField
+              this.textField = textField;
             }}
             onChangeText={this.props.onChangeTextValue}
             autoCapitalize={this.props.autoCapitalize}
@@ -95,10 +95,10 @@ export default class TextInputField extends Component {
         {this.renderFocusContent()}
         {this.props.children}
       </View>
-    )
+    );
   }
-  renderMultiLine (numberOfLines) {
-    var dynamicStyle = stylesWithNumberOfLines(numberOfLines)
+  renderMultiLine(numberOfLines) {
+    var dynamicStyle = stylesWithNumberOfLines(numberOfLines);
     return (
       <View style={dynamicStyle.textAreaContainer}>
         <View style={styles.labelContainer}>
@@ -116,31 +116,31 @@ export default class TextInputField extends Component {
           secureTextEntry={this.props.secureTextEntry}
           editable={this.props.editable}
           value={this.props.value}
-          underlineColorAndroid='white'
+          underlineColorAndroid="white"
           numberOfLines={numberOfLines}
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
           ref={textField => {
-            this.textField = textField
+            this.textField = textField;
           }}
           testID={this.props.testID}
           onChangeText={this.props.onChangeTextValue}
           placeholder={this.props.placeholder}
         />
       </View>
-    )
+    );
   }
 
-  render () {
-    var numberOfLines = 1
+  render() {
+    var numberOfLines = 1;
     if (this.props.numberOfLines) {
-      numberOfLines = parseInt(this.props.numberOfLines)
+      numberOfLines = parseInt(this.props.numberOfLines, 10);
     }
 
     if (numberOfLines > 1) {
-      return this.renderMultiLine(numberOfLines)
+      return this.renderMultiLine(numberOfLines);
     } else {
-      return this.renderOneline()
+      return this.renderOneline();
     }
   }
 }

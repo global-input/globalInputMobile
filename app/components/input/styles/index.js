@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native'
+import {StyleSheet} from 'react-native';
 
 var styleData = {
   icon: {
@@ -56,7 +56,6 @@ var styleData = {
     flex: 1,
     minHeight: 40,
     backgroundColor: 'white',
-    justifyContent: 'center',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -107,11 +106,11 @@ var styleData = {
     height: 150,
     width: 200,
   },
-}
-export const styles = StyleSheet.create(styleData)
+};
+export const styles = StyleSheet.create(styleData);
 
-export function stylesWithNumberOfLines (nlines = 1) {
-  var height = nlines * 25 + 50
+export function stylesWithNumberOfLines(nlines = 1) {
+  var height = nlines * 25 + 50;
   return StyleSheet.create({
     textarea: {
       backgroundColor: '#ffffff',
@@ -131,5 +130,5 @@ export function stylesWithNumberOfLines (nlines = 1) {
       paddingLeft: 10,
       paddingRight: 10,
     },
-  })
+  });
 }

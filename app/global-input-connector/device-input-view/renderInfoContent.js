@@ -1,6 +1,5 @@
-import React  from 'react';
+import React from 'react';
 
-import {DisplayContent} from "../../components";
+import {DisplayContent} from '../../components';
 
-
-export default  ({dataitem}) => (<DisplayContent content={dataitem.value}/>);
+export default ({dataitem}) => <DisplayContent content={dataitem.value} />;

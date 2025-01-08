@@ -1,16 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  Button,
-  TouchableHighlight,
-  Alert,
-  Switch,
-  Linking,
-} from 'react-native';
+import {Text, View, Linking} from 'react-native';
 import {styles, stylesData} from './styles';
 import {formDataUtil} from '../../store';
 

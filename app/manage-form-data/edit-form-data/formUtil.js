@@ -1,15 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
-import { Text, Image, View, Clipboard, TouchableHighlight } from 'react-native';
+import {Text, Image, View, Clipboard, TouchableHighlight} from 'react-native';
 
-import { generateRandomString } from '../../global-input-message';
+import {generateRandomString} from '../../global-input-message';
 
-import { styles } from '../styles';
+import {styles} from '../styles';
 
-import { images, manageFormDataTextConfig, menusConfig } from '../../configs';
+import {images, manageFormDataTextConfig, menusConfig} from '../../configs';
 
-import { appdata, domainForms } from '../../store';
+import {appdata, domainForms} from '../../store';
 
 import {
   TextInputField,
@@ -28,16 +27,16 @@ export const getDefaultFormId = () => {
   }
 };
 
-export const getInitData = ({ formData, errorMessage = '', label }) => {
+export const getInitData = ({formData, errorMessage = '', label}) => {
   const initData = {
     formData: {
       id: '',
       label,
       domains: '',
       fields: [
-        { id: 'username', label: 'Username', value: '' },
-        { id: 'password', label: 'Password', value: '' }
-      ]
+        {id: 'username', label: 'Username', value: ''},
+        {id: 'password', label: 'Password', value: ''},
+      ],
     },
     newFieldId: '',
     multiLine: false,
@@ -49,15 +48,15 @@ export const getInitData = ({ formData, errorMessage = '', label }) => {
   };
   if (formData) {
     domainForms.forFormData(formData);
-    return { ...initData, formData, errorMessage };
+    return {...initData, formData, errorMessage};
   } else {
     return initData;
   }
 };
 
-export const buildInitData = ({ formData, label }) => {
+export const buildInitData = ({formData, label}) => {
   if (!formData) {
-    return getInitData({ label });
+    return getInitData({label});
   }
   let errorMessage = null;
   const fields = [];
@@ -78,7 +77,7 @@ export const buildInitData = ({ formData, label }) => {
         value: decryptedValue,
       });
     });
-  return getInitData({ formData: { ...formData, fields }, errorMessage });
+  return getInitData({formData: {...formData, fields}, errorMessage});
 };
 
 const getMapItemKey = (item, index) => {
@@ -93,13 +92,13 @@ const getMapItemKey = (item, index) => {
   }
 };
 
-const addANewField = ({ data, setData }) => {
-  const setErrorMessage = errorMessage => setData({ ...data, errorMessage });
+const addANewField = ({data, setData}) => {
+  const setErrorMessage = errorMessage => setData({...data, errorMessage});
 
   var newFieldId = data.newFieldId.trim();
   if (!newFieldId) {
     setErrorMessage(
-      manageFormDataTextConfig.errorMessages.newField.newFieldMissing
+      manageFormDataTextConfig.errorMessages.newField.newFieldMissing,
     );
     return;
   }
@@ -109,7 +108,7 @@ const addANewField = ({ data, setData }) => {
   var existsFields = formData.fields.filter(f => f.id === newFieldId);
   if (existsFields && existsFields.length > 0) {
     setErrorMessage(
-      manageFormDataTextConfig.errorMessages.newField.fieldExists
+      manageFormDataTextConfig.errorMessages.newField.fieldExists,
     );
     return;
   }
@@ -122,12 +121,12 @@ const addANewField = ({ data, setData }) => {
     nField.nLines = 5;
   }
   formData.fields.push(nField);
-  setData(getInitData({ formData }));
+  setData(getInitData({formData}));
 };
 
-export const renderCreateNewField = ({ data, setData }) => {
-  const onAddNewField = () => addANewField({ data, setData });
-  const toEditView = () => setData({ ...data, actionType: ACT_TYPE.EDIT });
+export const renderCreateNewField = ({data, setData}) => {
+  const onAddNewField = () => addANewField({data, setData});
+  const toEditView = () => setData({...data, actionType: ACT_TYPE.EDIT});
   var menuItems = [
     {
       menu: menusConfig.cancel.menu,
@@ -136,7 +135,7 @@ export const renderCreateNewField = ({ data, setData }) => {
     {
       menu: menusConfig.apply.menu,
       onPress: onAddNewField,
-    }
+    },
   ];
   var title = manageFormDataTextConfig.addAField.title;
   return (
@@ -156,7 +155,7 @@ export const renderCreateNewField = ({ data, setData }) => {
               }
               value={data.newFieldId}
               onChangeTextValue={value => {
-                setData({ ...data, newFieldId: value });
+                setData({...data, newFieldId: value});
               }}
               dark={true}
             />
@@ -172,7 +171,7 @@ export const renderCreateNewField = ({ data, setData }) => {
               value={data.multiLine}
               display={menusConfig.checkbox.options}
               onChanged={multiLine => {
-                setData({ ...data, multiLine });
+                setData({...data, multiLine});
               }}
             />
             <Text style={styles.multilineLabel}>
@@ -194,12 +193,13 @@ const renderError = errorMessage => {
   if (!errorMessage) {
     return null;
   }
-  return (<View style={styles.formEditor}>
-    <View style={styles.formEditField}>
-      <Text style={styles.errorMessage}>{errorMessage}</Text>
+  return (
+    <View style={styles.formEditor}>
+      <View style={styles.formEditField}>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      </View>
     </View>
-  </View>
-  )
+  );
 };
 
 export const renderEditor = ({
@@ -209,20 +209,21 @@ export const renderEditor = ({
   menuItems,
   title,
   selectTextOnFocusOnId,
-  onFormFieldChanged
+  onFormFieldChanged,
 }) => {
-  const unselectFieldSelection = () => setData({ ...data, fieldSelection: null });
-  const changeForm = formData => setData({ ...data, formData, errorMessage: '', fieldSelection: null });
-  const onFormIdChanged = id => changeForm({ ...data.formData, id });
-  const onFormLabelChanged = label => changeForm({ ...data.formData, label });
-  const onFormDomainChanged = domains => changeForm({ ...data.formData, domains });
+  const unselectFieldSelection = () => setData({...data, fieldSelection: null});
+  const changeForm = formData =>
+    setData({...data, formData, errorMessage: '', fieldSelection: null});
+  const onFormIdChanged = id => changeForm({...data.formData, id});
+  const onFormLabelChanged = label => changeForm({...data.formData, label});
+  const onFormDomainChanged = domains =>
+    changeForm({...data.formData, domains});
   return (
     <EditorWithTabMenu
       title={title}
       menuItems={menuItems}
       selected={menusConfig.manageFormData.menu}
       notificationMessage={data.notificationMessage}>
-
       {renderError(data.errorMessage)}
       <View style={styles.formEditor}>
         <View style={styles.formEditField}>
@@ -288,26 +289,25 @@ export const buildMenu = ({
   formIdField,
   formData,
   updateFormData,
-  createFormData
+  createFormData,
 }) => {
   const toAddNewField = () =>
-    setData({ ...data, actionType: ACT_TYPE.NEW_FIELD });
+    setData({...data, actionType: ACT_TYPE.NEW_FIELD});
   const onCancelEditFormData = () => onBack(formData);
 
   const displayNotificationMessage = notificationMessage => {
-    setData(prevData => ({ ...prevData, notificationMessage }));
+    setData(prevData => ({...prevData, notificationMessage}));
     messageTimerHandler.current = setTimeout(() => {
-      setData(d => ({ ...d, notificationMessage: null }));
+      setData(d => ({...d, notificationMessage: null}));
       messageTimerHandler.current = null;
     }, 2000);
   };
 
   const onFieldValueChanged = (index, value) => {
-    var formData = { ...data.formData };
-    formData.fields[index].value = value;
-    setData({ ...data, formData, errorMessage: '' });
+    const formData1 = {...data.formData};
+    formData1.fields[index].value = value;
+    setData({...data, formData: formData, errorMessage: ''});
   };
-
 
   const onSaveFormData = () =>
     saveFormData({
@@ -316,11 +316,11 @@ export const buildMenu = ({
       formIdField,
       formData,
       updateFormData,
-      createFormData
+      createFormData,
     });
 
   if (data.fieldSelection) {
-    const { formField, index } = data.fieldSelection;
+    const {formField, index} = data.fieldSelection;
     const clipboardCopy = () => {
       var content = formField.value;
       if (content) {
@@ -329,9 +329,8 @@ export const buildMenu = ({
       }
     };
     const deleteAField = () => {
-      var formData = data.formData;
       formData.fields = formData.fields.filter(f => f !== formField);
-      setData({ ...data, formData, errorMessage: '', fieldSelection: null });
+      setData({...data, formData, errorMessage: '', fieldSelection: null});
     };
     const randomise = () => {
       var randomValue = generateRandomString(11);
@@ -339,23 +338,23 @@ export const buildMenu = ({
     };
     const clearField = () => onFieldValueChanged(index, '');
     const unselectFieldSelection = () =>
-      setData({ ...data, fieldSelection: null });
+      setData({...data, fieldSelection: null});
 
     return [
-      { menu: menusConfig.clipboardCopy.menu, onPress: clipboardCopy },
-      { menu: menusConfig.deleteField.menu, onPress: deleteAField },
-      { menu: menusConfig.random.menu, onPress: randomise },
-      { menu: menusConfig.clearField.menu, onPress: clearField },
-      { menu: menusConfig.unselect.menu, onPress: unselectFieldSelection }
+      {menu: menusConfig.clipboardCopy.menu, onPress: clipboardCopy},
+      {menu: menusConfig.deleteField.menu, onPress: deleteAField},
+      {menu: menusConfig.random.menu, onPress: randomise},
+      {menu: menusConfig.clearField.menu, onPress: clearField},
+      {menu: menusConfig.unselect.menu, onPress: unselectFieldSelection},
     ];
   }
   var menuItems = [
-    { menu: menusConfig.cancel.menu, onPress: onCancelEditFormData }
+    {menu: menusConfig.cancel.menu, onPress: onCancelEditFormData},
   ];
   if (data.globalInputState) {
     menuItems.push({
       menu: menusConfig.disconnect.menu,
-      onPress: onDisconnected
+      onPress: onDisconnected,
     });
   } else if (data.formData && data.formData.id && data.formData.fields.length) {
     menuItems.push({
@@ -381,9 +380,9 @@ const saveFormData = ({
   formIdField,
   formData,
   updateFormData,
-  createFormData
+  createFormData,
 }) => {
-  const setError = errorMessage => setData({ ...data, errorMessage });
+  const setError = errorMessage => setData({...data, errorMessage});
   if (data.formData.id.trim().length < 3) {
     setError(manageFormDataTextConfig.errorMessages.formId.tooShort);
     if (formIdField.current) {
@@ -408,7 +407,7 @@ const saveFormData = ({
       if (appdata.getFormContentById(data.formData.id)) {
         setError(
           manageFormDataTextConfig.errorMessages.formId
-            .alreadyExistsForNewFormId
+            .alreadyExistsForNewFormId,
         );
         if (formIdField.current) {
           formIdField.current.focus();
@@ -419,8 +418,11 @@ const saveFormData = ({
   } else {
     const existingItem = appdata.searchFormDataById(data.formData.id);
     if (existingItem) {
-
-      setError(manageFormDataTextConfig.errorMessages.formId.alreadyExists + ' the data already exist:' + existingItem.id);
+      setError(
+        manageFormDataTextConfig.errorMessages.formId.alreadyExists +
+          ' the data already exist:' +
+          existingItem.id,
+      );
       if (formIdField.current) {
         formIdField.current.focus();
       }
@@ -447,7 +449,7 @@ const saveFormData = ({
   }
 };
 
-const renderFieldSelection = ({ formField, index, data, setData }) => {
+const renderFieldSelection = ({formField, index, data, setData}) => {
   var icon = menusConfig.checkbox.options[0].image;
   var checked = false;
   var fieldSelection = data.fieldSelection;
@@ -460,10 +462,10 @@ const renderFieldSelection = ({ formField, index, data, setData }) => {
     <TouchableHighlight
       onPress={() => {
         if (checked) {
-          setData({ ...data, fieldSelection: null });
+          setData({...data, fieldSelection: null});
         } else {
-          fieldSelection = { formField, index };
-          setData({ ...data, fieldSelection });
+          fieldSelection = {formField, index};
+          setData({...data, fieldSelection});
         }
       }}>
       <Image source={icon} style={styles.itemIcon} />
@@ -471,13 +473,12 @@ const renderFieldSelection = ({ formField, index, data, setData }) => {
   );
 };
 
-export const changeGlobalInputFieldAction = ({ data, index, value }) => {
-  const formData = { ...data.formData };
+export const changeGlobalInputFieldAction = ({data, index, value}) => {
+  const formData = {...data.formData};
   formData.fields = [...formData.fields];
   formData.fields[index].value = value;
-  return { ...data, formData, errorMessage: '' };
+  return {...data, formData, errorMessage: ''};
 };
-
 
 const RenderAFormField = ({
   formField,
@@ -496,7 +497,7 @@ const RenderAFormField = ({
   if (formField.nLines && formField.nLines > 1) {
     multiline = true;
   }
-  const unselectFieldSelection = () => setData({ ...data, fieldSelection: null });
+  const unselectFieldSelection = () => setData({...data, fieldSelection: null});
 
   return (
     <View style={styles.formEditField}>
@@ -508,8 +509,8 @@ const RenderAFormField = ({
         numberOfLines={formField.nLines}
         multiline={multiline}
         onChangeTextValue={value => {
-          setData(changeGlobalInputFieldAction({ data, index, value }));
-          onFormFieldChanged({ formField, index, value });
+          setData(changeGlobalInputFieldAction({data, index, value}));
+          onFormFieldChanged({formField, index, value});
         }}
         onFocus={unselectFieldSelection}
         autoCapitalize={'none'}>
@@ -517,7 +518,7 @@ const RenderAFormField = ({
           formField,
           index,
           data,
-          setData
+          setData,
         })}
       </TextInputField>
     </View>

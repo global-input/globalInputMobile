@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
-import {View} from 'react-native'
-import Clipboard from '@react-native-clipboard/clipboard'
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
-import {styles} from '../styles'
+import {styles} from '../styles';
 
-import {images, menusConfig} from '../../configs'
+import {images, menusConfig} from '../../configs';
 
-import {ViewWithTabMenu, IconButton} from '../../components'
-import ChangePasswordView from '../change-password'
-import AppSettingsView from '../app-settings'
-import {ManageKeysView} from '../manage-keys'
-import {DecryptImportView} from '../restore-data/decrypt-import-view'
-import BackupFormData from '../backup-data'
-import {HelpScreen} from '../../help-screen'
-import DeleteAllDataView from '../delete-all-data'
+import {ViewWithTabMenu, IconButton} from '../../components';
+import ChangePasswordView from '../change-password';
+import AppSettingsView from '../app-settings';
+import {ManageKeysView} from '../manage-keys';
+import {DecryptImportView} from '../restore-data/decrypt-import-view';
+import BackupFormData from '../backup-data';
+import {HelpScreen} from '../../help-screen';
+import DeleteAllDataView from '../delete-all-data';
 
 const ACT_TYPE = {
   MAIN: 1,
@@ -24,54 +24,54 @@ const ACT_TYPE = {
   BACKUPDATA: 6,
   HELP: 7,
   DELETE_ALL_DATA: 8,
-}
+};
 export default ({menuItems, logout}) => {
-  const [actionType, setActionType] = useState(ACT_TYPE.MAIN)
-  const [content, setContent] = useState('')
+  const [actionType, setActionType] = useState(ACT_TYPE.MAIN);
+  const [content, setContent] = useState('');
 
-  const toMain = () => setActionType(ACT_TYPE.MAIN)
-  const changePasswordSelected = () => setActionType(ACT_TYPE.CHANGEPASSOWRD)
-  const changeSettingsSelected = () => setActionType(ACT_TYPE.APP_SETTINGS)
-  const manageKeysSelected = () => setActionType(ACT_TYPE.MANAGEKEYS)
+  const toMain = () => setActionType(ACT_TYPE.MAIN);
+  const changePasswordSelected = () => setActionType(ACT_TYPE.CHANGEPASSOWRD);
+  const changeSettingsSelected = () => setActionType(ACT_TYPE.APP_SETTINGS);
+  const manageKeysSelected = () => setActionType(ACT_TYPE.MANAGEKEYS);
   const restoreDataSelected = () => {
     Clipboard.getString().then(clipboardContent => {
       // Clipboard.setString("");
-      setContent(clipboardContent ? clipboardContent : '')
-      setActionType(ACT_TYPE.DECRYPT_IMPORT)
-    })
-  }
-  const deleteAllDataSelected = () => setActionType(ACT_TYPE.DELETE_ALL_DATA)
-  const backupDataSelected = () => setActionType(ACT_TYPE.BACKUPDATA)
-  const helpSelected = () => setActionType(ACT_TYPE.HELP)
+      setContent(clipboardContent ? clipboardContent : '');
+      setActionType(ACT_TYPE.DECRYPT_IMPORT);
+    });
+  };
+  const deleteAllDataSelected = () => setActionType(ACT_TYPE.DELETE_ALL_DATA);
+  const backupDataSelected = () => setActionType(ACT_TYPE.BACKUPDATA);
+  const helpSelected = () => setActionType(ACT_TYPE.HELP);
 
   switch (actionType) {
     case ACT_TYPE.CHANGEPASSOWRD:
-      return <ChangePasswordView onBack={toMain} />
+      return <ChangePasswordView onBack={toMain} />;
     case ACT_TYPE.APP_SETTINGS:
-      return <AppSettingsView onBack={toMain} />
+      return <AppSettingsView onBack={toMain} />;
     case ACT_TYPE.MANAGEKEYS:
-      return <ManageKeysView onBack={toMain} />
+      return <ManageKeysView onBack={toMain} />;
     case ACT_TYPE.DECRYPT_IMPORT:
-      return <DecryptImportView onBack={toMain} content={content} />
+      return <DecryptImportView onBack={toMain} content={content} />;
     case ACT_TYPE.DELETE_ALL_DATA:
-      return <DeleteAllDataView onBack={toMain} />
+      return <DeleteAllDataView onBack={toMain} />;
     case ACT_TYPE.BACKUPDATA: {
       var menuItems = [
         {
           menu: menusConfig.back.menu,
           onPress: toMain,
         },
-      ]
-      return <BackupFormData menuItems={menuItems} onBack={toMain} />
+      ];
+      return <BackupFormData menuItems={menuItems} onBack={toMain} />;
     }
     case ACT_TYPE.HELP: {
-      const menuItems = [
+      const menuItems2 = [
         {
           menu: menusConfig.back.menu,
           onPress: toMain,
         },
-      ]
-      return <HelpScreen menuItems={menuItems} />
+      ];
+      return <HelpScreen menuItems={menuItems2} />;
     }
     default:
       return (
@@ -135,6 +135,6 @@ export default ({menuItems, logout}) => {
             </View>
           </View>
         </ViewWithTabMenu>
-      )
+      );
   }
-}
+};

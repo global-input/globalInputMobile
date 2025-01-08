@@ -26,7 +26,6 @@ export default ({deleteEncryptionKey, encryptionKeyItem, onBack}) => {
   return (
     <ViewWithTabMenu
       menuItems={menuItems}
-      selected={menusConfig.manageKeys.menu}
       title={manageKeysTextConfig.deletingEncryptionKey.title}
       selected={menusConfig.manageKeys.menu}>
       <View style={styles.help}>

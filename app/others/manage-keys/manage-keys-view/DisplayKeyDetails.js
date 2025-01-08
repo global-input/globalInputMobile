@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Image
-} from 'react-native';
+import {Text, View, Image} from 'react-native';
 
-import { styles } from '../styles';
-import { images } from '../../../configs';
-import { appdata, store, formDataUtil, generateRandomString } from "../../../store";
+import {styles} from '../styles';
+import {images} from '../../../configs';
+import {appdata, formDataUtil} from '../../../store';
 
-
-
-export default ({ encryptionKeyItem }) => {
-
-  var decryptedKeyContent = appdata.decryptedWithPassword(encryptionKeyItem.encryptionKey);
+export default ({encryptionKeyItem}) => {
+  var decryptedKeyContent = appdata.decryptedWithPassword(
+    encryptionKeyItem.encryptionKey,
+  );
   var createdAt = formDataUtil.getDateString(encryptionKeyItem.createdAt);
   var name = encryptionKeyItem.name;
   return (
@@ -37,7 +32,6 @@ export default ({ encryptionKeyItem }) => {
       <View style={styles.itemRow}>
         <View style={styles.labelContainer}>
           <Image source={images.timestampIcon} style={styles.itemIcon} />
-
         </View>
         <View style={styles.fieldValueContainer}>
           <Text style={styles.fieldValue}>{createdAt}</Text>
@@ -45,5 +39,4 @@ export default ({ encryptionKeyItem }) => {
       </View>
     </View>
   );
-
 };

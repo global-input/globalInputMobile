@@ -1,2 +1,2 @@
-import QRCodeView from "./QRCodeView";
+import QRCodeView from './QRCodeView';
 export {QRCodeView};

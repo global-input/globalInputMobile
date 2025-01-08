@@ -1,46 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, View} from 'react-native';
 
+import {styles} from './styles';
+import {QRCodeView} from '../../qr-code-view';
 
-import { styles } from "./styles";
-import { QRCodeView } from "../../qr-code-view";
+import {settingsTextConfig, menusConfig} from '../../configs';
 
+import {
+  EditorWithTabMenu,
+  CheckBoxButton,
+  TextInputField,
+} from '../../components';
 
-import { settingsTextConfig, menusConfig } from "../../configs";
-
-import { EditorWithTabMenu, CheckBoxButton, IconButton, TextInputField } from "../../components";
-
-import { appdata, store } from "../../store";
-import { createMessageConnector } from "../../global-input-message";
+import {appdata, store} from '../../store';
+import {createMessageConnector} from '../../global-input-message';
 const ACT_TYPE = {
   MAIN: 1,
-  EXPORT_AS_QR_CODE: 2
-}
+  EXPORT_AS_QR_CODE: 2,
+};
 const getStateFromProps = () => {
-  const appLoginTimeout = "" + (appdata.getAppLoginTimeout() / 1000);
-
+  const appLoginTimeout = '' + appdata.getAppLoginTimeout() / 1000;
 
   const preserveSession = appdata.getPreserveSession();
   const proxyURL = appdata.getProxyURL();
   const apikey = appdata.getApikey();
   const securityGroup = appdata.getSecurityGroup();
   const actType = ACT_TYPE.MAIN;
-  return { loginTimeoutOnBackground: appLoginTimeout, errorMessage: "", preserveSession, proxyURL, apikey, actType, securityGroup };
-}
-export default ({ onBack }) => {
+  return {
+    loginTimeoutOnBackground: appLoginTimeout,
+    errorMessage: '',
+    preserveSession,
+    proxyURL,
+    apikey,
+    actType,
+    securityGroup,
+  };
+};
+export default ({onBack}) => {
   const [compData, setCompData] = useState(() => getStateFromProps());
 
-  const setLoginTimeoutOnBackground = (loginTimeoutOnBackground) => setCompData({ ...compData, loginTimeoutOnBackground });
-  const setProxyURL = proxyURL => setCompData({ ...compData, proxyURL });
-  const setAPIKey = apikey => setCompData({ ...compData, apikey });
-  const setSecurityGroup = securityGroup => setCompData({ ...compData, securityGroup });
-  const onError = errorMessage => setCompData({ ...compData, errorMessage });
+  const setLoginTimeoutOnBackground = loginTimeoutOnBackground =>
+    setCompData({...compData, loginTimeoutOnBackground});
+  const setProxyURL = proxyURL => setCompData({...compData, proxyURL});
+  const setAPIKey = apikey => setCompData({...compData, apikey});
+  const setSecurityGroup = securityGroup =>
+    setCompData({...compData, securityGroup});
+  const onError = errorMessage => setCompData({...compData, errorMessage});
   const onCancel = () => onBack();
-  const toExportAsQRCode = () => setCompData({ ...compData, actType: ACT_TYPE.EXPORT_AS_QR_CODE });
-  const toMain = () => setCompData({ ...compData, actType: ACT_TYPE.MAIN });
+  const toExportAsQRCode = () =>
+    setCompData({...compData, actType: ACT_TYPE.EXPORT_AS_QR_CODE});
+  const toMain = () => setCompData({...compData, actType: ACT_TYPE.MAIN});
   const updateLoginTimeoutBackground = () => {
     var loginTimeoutOnBackground = compData.loginTimeoutOnBackground.trim();
-    var loginTimeoutOnBackgroundValue = parseInt(loginTimeoutOnBackground) * 1000;
+    var loginTimeoutOnBackgroundValue =
+      parseInt(loginTimeoutOnBackground, 10) * 1000;
     appdata.setAppLoginTimeout(loginTimeoutOnBackgroundValue);
   };
   const updatePreserveSession = () => {
@@ -48,7 +61,7 @@ export default ({ onBack }) => {
     if (preserveSession && appdata.getPreserveSession()) {
       return null;
     }
-    if ((!preserveSession) && (!appdata.getPreserveSession())) {
+    if (!preserveSession && !appdata.getPreserveSession()) {
       return null;
     }
     appdata.setPreserveSession(preserveSession);
@@ -60,38 +73,43 @@ export default ({ onBack }) => {
       return false;
     }
     var appLoginTimeout = appdata.getAppLoginTimeout() / 1000;
-    var loginTimeoutOnBackgroundValue = parseInt(loginTimeoutOnBackground);
+    var loginTimeoutOnBackgroundValue = parseInt(loginTimeoutOnBackground, 10);
     if (loginTimeoutOnBackgroundValue === appLoginTimeout) {
       return false;
     }
     return true;
-  }
+  };
   const isUpdatePreserveSessionChanged = () => {
     var preserveSession = compData.preserveSession;
     if (preserveSession && appdata.getPreserveSession()) {
       return false;
     }
-    if ((!preserveSession) && (!appdata.getPreserveSession())) {
+    if (!preserveSession && !appdata.getPreserveSession()) {
       return false;
     }
     return true;
   };
-  const isWebSocketURLChanged = () => compData.proxyURL !== appdata.getProxyURL();
+  const isWebSocketURLChanged = () =>
+    compData.proxyURL !== appdata.getProxyURL();
 
   const isAPIKeyChanged = () => compData.apikey !== appdata.getApikey();
 
-  const isSecurityGroupChanged = () => compData.securityGroup !== appdata.getSecurityGroup();
+  const isSecurityGroupChanged = () =>
+    compData.securityGroup !== appdata.getSecurityGroup();
 
   const isSettingsChanged = () => {
-    return (isLoginTimeoutBackgroundChanged() ||
+    return (
+      isLoginTimeoutBackgroundChanged() ||
       isUpdatePreserveSessionChanged() ||
       isWebSocketURLChanged() ||
-      isAPIKeyChanged() || isSecurityGroupChanged());
+      isAPIKeyChanged() ||
+      isSecurityGroupChanged()
+    );
   };
   const updateProxyURL = () => appdata.setProxyURL(compData.proxyURL);
   const updateAPIKey = () => appdata.setApiKey(compData.apikey);
-  const updateSecurityGroup = () => appdata.setSecurityGroup(compData.securityGroup);
-
+  const updateSecurityGroup = () =>
+    appdata.setSecurityGroup(compData.securityGroup);
 
   const saveSettings = () => {
     if (isLoginTimeoutBackgroundChanged()) {
@@ -111,15 +129,13 @@ export default ({ onBack }) => {
     }
   };
 
-
-
   useEffect(() => {
     const ubsubsribe = store.subscribe(() => {
       setCompData(getStateFromProps());
     });
     return () => {
       ubsubsribe();
-    }
+    };
   }, []);
   const renderErrorMessage = () => {
     if (compData.errorMessage) {
@@ -128,37 +144,43 @@ export default ({ onBack }) => {
           <Text style={styles.errorMessage}>{compData.errorMessage}</Text>
         </View>
       );
-    }
-    else {
+    } else {
       return null;
     }
   };
   const renderMain = () => {
-    var menuItems = [{
-      menu: menusConfig.back.menu,
-      onPress: onBack
-    }];
+    var menuItems = [
+      {
+        menu: menusConfig.back.menu,
+        onPress: onBack,
+      },
+    ];
     if (isSettingsChanged()) {
       menuItems.push({
         menu: menusConfig.save.menu,
-        onPress: saveSettings
+        onPress: saveSettings,
       });
     }
 
     menuItems.push({
       menu: menusConfig.qrcode.menu,
-      onPress: toExportAsQRCode
+      onPress: toExportAsQRCode,
     });
 
-
     return (
-      <EditorWithTabMenu title={settingsTextConfig.title}
-        menuItems={menuItems} selected={menusConfig.eye.menu}>
+      <EditorWithTabMenu
+        title={settingsTextConfig.title}
+        menuItems={menuItems}
+        selected={menusConfig.eye.menu}>
         {renderErrorMessage()}
 
         <View style={styles.settingItem}>
-          <Text style={styles.itemTitle}>{settingsTextConfig.timeOutLogin.title}</Text>
-          <Text style={styles.itemText}>{settingsTextConfig.timeOutLogin.content}</Text>
+          <Text style={styles.itemTitle}>
+            {settingsTextConfig.timeOutLogin.title}
+          </Text>
+          <Text style={styles.itemText}>
+            {settingsTextConfig.timeOutLogin.content}
+          </Text>
           <View style={styles.inputContainer}>
             <TextInputField
               placeholder={settingsTextConfig.timeOutLogin.placeholder}
@@ -170,20 +192,32 @@ export default ({ onBack }) => {
           </View>
         </View>
         <View style={styles.settingItem}>
-          <Text style={styles.itemTitle}>{settingsTextConfig.preserveSession.title}</Text>
-          <Text style={styles.itemText}>{settingsTextConfig.preserveSession.content}</Text>
+          <Text style={styles.itemTitle}>
+            {settingsTextConfig.preserveSession.title}
+          </Text>
+          <Text style={styles.itemText}>
+            {settingsTextConfig.preserveSession.content}
+          </Text>
           <View style={styles.checkboxContainer}>
-            <Text style={styles.optionLabel}>{settingsTextConfig.preserveSession.label}</Text>
-            <CheckBoxButton value={compData.preserveSession}
-              display={menusConfig.checkbox.options} onChanged={preserveSession => {
-                setCompData({ ...compData, preserveSession });
-              }} />
+            <Text style={styles.optionLabel}>
+              {settingsTextConfig.preserveSession.label}
+            </Text>
+            <CheckBoxButton
+              value={compData.preserveSession}
+              display={menusConfig.checkbox.options}
+              onChanged={preserveSession => {
+                setCompData({...compData, preserveSession});
+              }}
+            />
           </View>
-
         </View>
         <View style={styles.settingItem}>
-          <Text style={styles.itemTitle}>{settingsTextConfig.datatransfer.title}</Text>
-          <Text style={styles.itemText}>{settingsTextConfig.datatransfer.content}</Text>
+          <Text style={styles.itemTitle}>
+            {settingsTextConfig.datatransfer.title}
+          </Text>
+          <Text style={styles.itemText}>
+            {settingsTextConfig.datatransfer.content}
+          </Text>
           <View style={styles.inputContainer}>
             <TextInputField
               placeholder={settingsTextConfig.datatransfer.placeholder}
@@ -193,7 +227,9 @@ export default ({ onBack }) => {
               autoCapitalize={'none'}
             />
           </View>
-          <Text style={styles.itemText}>{settingsTextConfig.datatransfer.contentApiKey}</Text>
+          <Text style={styles.itemText}>
+            {settingsTextConfig.datatransfer.contentApiKey}
+          </Text>
           <View style={styles.inputContainer}>
             <TextInputField
               placeholder={settingsTextConfig.datatransfer.apiplaceholder}
@@ -204,24 +240,22 @@ export default ({ onBack }) => {
             />
           </View>
 
-
-          <Text style={styles.itemText}>{settingsTextConfig.datatransfer.securityGroup.content}</Text>
+          <Text style={styles.itemText}>
+            {settingsTextConfig.datatransfer.securityGroup.content}
+          </Text>
           <View style={styles.inputContainer}>
             <TextInputField
-              placeholder={settingsTextConfig.datatransfer.securityGroup.placeholder}
+              placeholder={
+                settingsTextConfig.datatransfer.securityGroup.placeholder
+              }
               value={compData.securityGroup}
               secureTextEntry={false}
               onChangeTextValue={setSecurityGroup}
               autoCapitalize={'none'}
             />
           </View>
-
         </View>
-
-
-
       </EditorWithTabMenu>
-
     );
   };
   const renderQRCode = () => {
@@ -229,26 +263,31 @@ export default ({ onBack }) => {
     var pairingData = connector.buildPairingData({
       proxyURL: appdata.getProxyURL(),
       apiKey: appdata.getApikey(),
-      securityGroup: appdata.getSecurityGroup()
+      securityGroup: appdata.getSecurityGroup(),
     });
 
-    var menuItems = [{}, {
-      menu: menusConfig.ok.menu,
-      onPress: toMain
-    }, {}];
+    var menuItems = [
+      {},
+      {
+        menu: menusConfig.ok.menu,
+        onPress: toMain,
+      },
+      {},
+    ];
     return (
-      <QRCodeView title={settingsTextConfig.datatransfer.qrcode.title}
+      <QRCodeView
+        title={settingsTextConfig.datatransfer.qrcode.title}
         help={settingsTextConfig.datatransfer.qrcode.help}
         help2={settingsTextConfig.datatransfer.qrcode.help2}
         qrcodeContent={pairingData}
-        menuItems={menuItems} />
-    )
+        menuItems={menuItems}
+      />
+    );
   };
 
   if (compData.actType === ACT_TYPE.EXPORT_AS_QR_CODE) {
     return renderQRCode();
-  }
-  else {
+  } else {
     return renderMain();
   }
 };

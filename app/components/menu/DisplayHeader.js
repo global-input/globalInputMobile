@@ -1,19 +1,19 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, View, Keyboard, StatusBar, Image} from 'react-native'
-import {styles, deviceDector} from './styles'
+import React, {Component} from 'react';
+import {Text, View, Image} from 'react-native';
+import {styles, deviceDector} from './styles';
 
 export default class DisplayHeader extends Component {
-  renderTitleIcon () {
+  renderTitleIcon() {
     if (this.props.titleIcon) {
-      return <Image source={this.props.titleIcon} style={styles.titleIcon} />
+      return <Image source={this.props.titleIcon} style={styles.titleIcon} />;
     } else {
-      return null
+      return null;
     }
   }
-  render () {
-    var headerStyle = styles.header
+  render() {
+    var headerStyle = styles.header;
     if (deviceDector.isLandscapeMode()) {
-      headerStyle = styles.headerLandscape
+      headerStyle = styles.headerLandscape;
     }
     if (this.props.title) {
       return (
@@ -25,18 +25,18 @@ export default class DisplayHeader extends Component {
             </Text>
           </View>
         </View>
-      )
+      );
     } else {
       return (
         <View style={headerStyle} onLayout={this.layoutChanged.bind(this)}>
           {this.props.children}
         </View>
-      )
+      );
     }
   }
-  layoutChanged (event) {
+  layoutChanged(event) {
     if (event && event.nativeEvent && event.nativeEvent.layout) {
-      this.forceUpdate()
+      this.forceUpdate();
     }
   }
 }

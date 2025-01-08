@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import DeviceDetector from './DeviceDetector';
 var deviceDector = new DeviceDetector();
@@ -13,7 +13,6 @@ var stylesData = {
   },
   header: {
     backgroundColor: 'rgba(72,128,237,1)',
-    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -79,7 +78,6 @@ var stylesData = {
   },
   tabOnTop: {
     backgroundColor: 'rgba(72,128,237,1)',
-    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -89,7 +89,7 @@ export const userSettings = {
         var encryptionKeyList = state.encryptionKeyList;
         if (encryptionItem && encryptionItem.encryptionKey) {
           var foundIndex = encryptionKeyList.findIndex(
-            e => e.encryptionKey == encryptionItem.encryptionKey,
+            e => e.encryptionKey === encryptionItem.encryptionKey,
           );
           if (foundIndex >= 0) {
             encryptionKeyList[foundIndex] = encryptionItem;
@@ -171,8 +171,8 @@ export const userSettings = {
       case ActionNames.MERGE_FORMS:
         var formDataList = action.formDataList;
         var notmatchedContent = state.savedFormContent.filter(m => {
-          for (var i = 0; i < formDataList.length; i++) {
-            if (m.id === formDataList[i].id) {
+          for (let kk = 0; kk < formDataList.length; kk++) {
+            if (m.id === formDataList[kk].id) {
               return false;
             }
           }
@@ -302,14 +302,14 @@ export const addEncryptionItem = (store, encryptionItem) =>
 
 export const appLoginContent = (
   store,
-  appLoginContent,
+  loginContent,
   activeEncryptionKey,
   encryptionKeyList,
   savedFormContent,
 ) =>
   store.dispatch(
     userSettings.actions.appLoginContent(
-      appLoginContent,
+      loginContent,
       activeEncryptionKey,
       encryptionKeyList,
       savedFormContent,

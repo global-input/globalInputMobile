@@ -1,2 +1,2 @@
-import HelpScreen from "./HelpScreen";
+import HelpScreen from './HelpScreen';
 export {HelpScreen};

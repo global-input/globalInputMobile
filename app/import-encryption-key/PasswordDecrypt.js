@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 
 import {styles} from './styles';
@@ -7,7 +7,6 @@ import {images, manageKeysTextConfig, menusConfig} from '../configs';
 
 import {
   EditorWithTabMenu,
-  IconButton,
   TextInputField,
   DisplayBlockText,
 } from '../components';
@@ -23,7 +22,7 @@ export default ({codedata, onEncryptionKeyDecrypted, onBack}) => {
     setAction({...action, password, errorMessage: ''});
   const setErrorMessage = errorMessage => setAction({...action, errorMessage});
   const decryptWithPassword = () => {
-    var {password, codedata} = action;
+    var {password} = action;
     if (!password) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordIsmissing);
     } else {

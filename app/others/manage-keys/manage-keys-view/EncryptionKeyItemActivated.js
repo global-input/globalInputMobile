@@ -1,24 +1,23 @@
 import React from 'react';
 
-import {manageKeysTextConfig,menusConfig} from "../../../configs";
+import {manageKeysTextConfig, menusConfig} from '../../../configs';
 
-import {ViewWithTabMenu,DisplayBlockText} from "../../../components";
+import {ViewWithTabMenu, DisplayBlockText} from '../../../components';
 
+import DisplayKeyDetails from './DisplayKeyDetails';
 
-import DisplayKeyDetails from "./DisplayKeyDetails";
-
-
-export default ({onBack,encryptionKeyItem})=>{
-  var menuItems=[{},{
+export default ({onBack, encryptionKeyItem}) => {
+  var menuItems = [
+    {},
+    {
       menu: menusConfig.ok.menu,
-      onPress: onBack
+      onPress: onBack,
     },
-    {}
+    {},
   ];
   return (
     <ViewWithTabMenu
       menuItems={menuItems}
-      selected={menusConfig.manageKeys.menu}
       title={manageKeysTextConfig.encryptionActivated.title}
       selected={menusConfig.manageKeys.menu}>
       <DisplayKeyDetails encryptionKeyItem={encryptionKeyItem} />

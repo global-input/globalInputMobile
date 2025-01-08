@@ -46,7 +46,7 @@ export const exportEncryptionKey = ({action, setAction, onCompleted}) => {
   try {
     if (!action?.password) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordIsmissing);
-    } else if (action?password?.length < 5) {
+    } else if (action?.password?.length < 5) {
       setErrorMessage(manageKeysTextConfig.errorMessages.passwordTooShort);
     } else {
       var encryptedContent = appdata.exportEncryptionKeyItemWithPassword(

@@ -1,2 +1,2 @@
-import ManageFormData from "./form-data-manager";
+import ManageFormData from './form-data-manager';
 export {ManageFormData};

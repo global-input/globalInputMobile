@@ -6,42 +6,34 @@
  * @flow
  */
 import GItemSelector from '../GItemSelector';
-import React,{useState} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export default () => {
-  
   const data = {
     label: 'Single Section',
     items: [
       {label: 'item1', value: 'value1'},
       {label: 'item2', value: 'value2'},
-      {label: 'item3', value: 'value3'}
-    ]
+      {label: 'item3', value: 'value3'},
+    ],
   };
-  const getItemByValue= value=>{
-     const matched=data.items.filter(item => item.value === value);
-     return matched.length?matched[0]:null;     
-  }
-  const [selectedValue, setSelectedValue]=useState(data.items[0]);
+  const getItemByValue = value => {
+    const matched = data.items.filter(item => item.value === value);
+    return matched.length ? matched[0] : null;
+  };
+  const [selectedValue, setSelectedValue] = useState(data.items[0]);
 
-  const onValueChange= value => setSelectedValue(getItemByValue(value));
+  const onValueChange = value => setSelectedValue(getItemByValue(value));
 
   return (
     <SafeAreaView>
@@ -53,10 +45,10 @@ export default () => {
             items={data.items}
             label={data.label}
             onValueChange={onValueChange}
-          />          
+          />
         </View>
         <View style={styles.section}>
-  <Text>Selected value:{selectedValue.value}</Text>
+          <Text>Selected value:{selectedValue.value}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -69,8 +61,5 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
-  section:{
-
-  },
-  
+  section: {},
 });

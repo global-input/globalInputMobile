@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useReducer} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View} from 'react-native';
 
 import {ViewWithTabMenu, DisplayBlockText} from '../components';
@@ -22,17 +22,17 @@ export default ({codedata, toCameraView, menuItems}) => {
   useEffect(() => {
     const onDisconnected = () => setAction(formData.finishSessionAction);
     const onInput = message => {
-      setAction(action => {
-        const newAction = formData.onInputAction(message, action);
+      setAction(act => {
+        const newAction = formData.onInputAction(message, act);
         return newAction;
       });
     };
 
     const onDeviceConnected = initData =>
-      setAction(action => formData.initDataAction(initData, action));
+      setAction(act => formData.initDataAction(initData, act));
     if (codedata.protocolVersion && codedata.protocolVersion > compatibility) {
-      setAction(action => ({
-        ...action,
+      setAction(act => ({
+        ...act,
         actionType: ACT_TYPE.ERROR,
         title: 'Version Incompatible',
         message: 'Please update your Global Input App and try again',

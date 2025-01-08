@@ -7,7 +7,7 @@ import {images, menusConfig, manageKeysTextConfig} from '../../../configs';
 
 import {ViewWithTabMenu, DisplayBlockText} from '../../../components';
 
-import {appdata, store, formDataUtil} from '../../../store';
+import {appdata, formDataUtil} from '../../../store';
 import GenerateNewKey from '../generate-new-key';
 import EncryptionKeyItemImported from './EncryptionKeyItemImported';
 import EncryptionKeyItemActivated from './EncryptionKeyItemActivated';
@@ -132,9 +132,9 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     setAction({...action, type});
   };
   const toListView = () => {
-    const action = getStateFromProps({importDecryptedKey});
+    const a = getStateFromProps({importDecryptedKey});
     action.type = ACT_TYPE.LIST_KEYS;
-    setAction(action);
+    setAction(a);
   };
   const importNewKey = (name, encryptionKey) => {
     const selectedEncryptionKeyItem = appdata.importNewKey(name, encryptionKey);
@@ -306,7 +306,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
       console.log('failed to decrypt the encryption key');
       return null;
     }
-    var menuItems = [
+    const menuItems2 = [
       {},
       {
         menu: menusConfig.ok.menu,
@@ -324,7 +324,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
         help={manageKeysTextConfig.export.qrcode.content}
         help2={help2}
         qrcodeContent={encryptedContent}
-        menuItems={menuItems}
+        menuItems={menuItems2}
       />
     );
   };
@@ -350,7 +350,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
     );
   };
   const renderClipboardCopyComplete = () => {
-    var menuItems = [
+    const menuItems2 = [
       {},
       {
         menu: menusConfig.ok.menu,
@@ -366,7 +366,7 @@ export default ({importDecryptedKey, menuItems, onBack}) => {
       <ViewWithTabMenu
         title={manageKeysTextConfig.export.textContent.complete.title}
         content={content}
-        menuItems={menuItems}
+        menuItems={menuItems2}
       />
     );
   };

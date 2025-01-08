@@ -1,59 +1,59 @@
-import React, { useState, Component, PureComponent } from 'react';
+import React from 'react';
 import {
   Text,
   View,
   FlatList,
   Image,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
-import tickOff from "./tick-off-icon.png";
-import tickOn from "./tick-on-icon.png";
+import tickOff from './tick-off-icon.png';
+import tickOn from './tick-on-icon.png';
 
-
-
-export default ({ items, label, selectType, selectedItems, onValueChange }) => {
-
+export default ({items, label, selectType, selectedItems, onValueChange}) => {
   const onSelected = item => {
-
-    var isAlreadySelected = selectedItems && selectedItems.filter(itm => itm.value === item.value).length > 0;
+    var isAlreadySelected =
+      selectedItems &&
+      selectedItems.filter(itm => itm.value === item.value).length > 0;
     if (selectType === 'single') {
       if (isAlreadySelected) {
         onValueChange([]);
-      }
-      else {
+      } else {
         onValueChange([item]);
       }
-    }
-    else {
+    } else {
       if (isAlreadySelected) {
         onValueChange(selectedItems.filter(itm => itm.value !== item.value));
-      }
-      else {
+      } else {
         if (selectedItems) {
           onValueChange([...selectedItems, item]);
-        }
-        else {
+        } else {
           onValueChange([item]);
         }
       }
     }
-
   };
-  return (<View style={styles.selectionFieldContainer}>
-    <Text style={styles.label}>{label}</Text>
-    <FlatList data={items}
-      keyExtractor={item => item.value}
-      renderItem={({ item }) => (<DisplayItem item={item} selectedItems={selectedItems} onSelected={onSelected} />)
-      } />
-  </View>);
-
+  return (
+    <View style={styles.selectionFieldContainer}>
+      <Text style={styles.label}>{label}</Text>
+      <FlatList
+        data={items}
+        keyExtractor={item => item.value}
+        renderItem={({item}) => (
+          <DisplayItem
+            item={item}
+            selectedItems={selectedItems}
+            onSelected={onSelected}
+          />
+        )}
+      />
+    </View>
+  );
 };
 
-const DisplayItem = ({ item, selectedItems, onSelected }) => {
-
-  image = tickOff;
+const DisplayItem = ({item, selectedItems, onSelected}) => {
+  let image = tickOff;
   if (selectedItems) {
     selectedItems.forEach(itm => {
       if (itm.value === item.value) {
@@ -62,79 +62,68 @@ const DisplayItem = ({ item, selectedItems, onSelected }) => {
     });
   }
   return (
-    <TouchableHighlight onPress={() => {
-      onSelected(item);
-    }}>
+    <TouchableHighlight
+      onPress={() => {
+        onSelected(item);
+      }}>
       <View style={styles.optionRow}>
-        <Text style={styles.optionText}>
-          {item.label}
-        </Text>
+        <Text style={styles.optionText}>{item.label}</Text>
         <View style={styles.optionLabel}>
           <Image source={image} />
         </View>
-
       </View>
     </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
-
   selectionFieldContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    borderColor:"#B9C3CE",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    borderColor: '#B9C3CE',
     borderBottomWidth: 1,
-    width: "100%"
+    width: '100%',
   },
   selectionSelectedRow: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
   },
   selectionSelectedValueText: {
     fontSize: 20,
-    color: "#4880ED",
-    width: "100%",
+    color: '#4880ED',
+    width: '100%',
     margin: 0,
     padding: 0,
   },
   optionLabel: {
     width: 35,
     height: 25,
-    marginLeft:15
+    marginLeft: 15,
   },
   optionText: {
     fontSize: 20,
-    color: "#4880ED",
+    color: '#4880ED',
     margin: 0,
     padding: 0,
   },
   optionRow: {
-    display: "flex",
-    flex: 1,    
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "stretch",
-    marginBottom:10
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    marginBottom: 10,
   },
   label: {
     fontSize: 10,
-    color: "#4880ED",
+    color: '#4880ED',
     height: 15,
     marginBottom: 0,
-    paddingBottom: 0,    
-    fontFamily: "Futura-Medium",
-  }
-
+    paddingBottom: 0,
+    fontFamily: 'Futura-Medium',
+  },
 });
-
-
-
-
-
-
-

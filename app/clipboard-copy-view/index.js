@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TextInput} from 'react-native';
-import  Clipboard from '@react-native-clipboard/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {styles} from './styles';
 import {DisplayBlockText, ViewWithTabMenu} from '../components';
 import {menusConfig} from '../configs';
@@ -13,16 +13,16 @@ export default ({
   selected,
   content1,
   content2,
-  placeHolder
+  placeHolder,
 }) => {
-  const onClipboardCopy = () => {    
+  const onClipboardCopy = () => {
     Clipboard.setString(content);
     onNextStep();
   };
   var menuItems = [
     {menu: menusConfig.back.menu, onPress: onBack},
-    {menu: menusConfig.clipboardCopy.menu, onPress: onClipboardCopy}
-  ];  
+    {menu: menusConfig.clipboardCopy.menu, onPress: onClipboardCopy},
+  ];
   return (
     <ViewWithTabMenu menuItems={menuItems} selected={selected} title={title}>
       <DisplayBlockText content={content1} />

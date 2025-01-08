@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import {commonStyles} from '../../../common-styles';
 
@@ -200,9 +200,6 @@ var stylesData = {
   },
   help: {
     marginTop: 10,
-  },
-  errorMessage: {
-    color: 'red',
   },
 };
 

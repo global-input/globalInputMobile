@@ -9,16 +9,14 @@ import {styles} from '../styles';
 import {IconButton, TextFieldWithDone, DisplayHeader} from '../../components';
 
 const RenderTitleIcon = ({titleIcon}) =>
-  titleIcon ? (
-    <Image source={titleIcon} style={styles.titleIcon} />
-  ) : null;
+  titleIcon ? <Image source={titleIcon} style={styles.titleIcon} /> : null;
 
 const renderWithSearchField = ({
   filterString,
   onChangeFilterString,
   onBlur,
   onFocus,
-  retrieveSearchFieldReference
+  retrieveSearchFieldReference,
 }) => (
   <DisplayHeader>
     <View style={styles.searchBlockItemContainer}>
@@ -57,7 +55,7 @@ const renderWithSearchButton = ({
   displaySearchField,
   filterString,
   titleIcon,
-  toListLabels
+  toListLabels,
 }) => (
   <DisplayHeader>
     <View style={styles.headerItem}>
@@ -86,19 +84,16 @@ export default ({
   onSearchLooseFocus,
   titleIcon,
   toListLabels,
-  title
+  title,
 }) => {
   const [showSearch, setShowSearch] = useState(false);
   const searchField = useRef(null);
   const retrieveSearchFieldReference = ref => (searchField.current = ref);
-  const onBlur = () => {
-    onSearchLooseFocus();
-    setShowSearch(false);
-  };
+
   const onFocus = () => {
     setShowSearch(true);
-  };;
-  const onBlurretrieveSearchFieldReference= ref=>searchField.current=ref;
+  };
+  const onBlurretrieveSearchFieldReference = ref => (searchField.current = ref);
   const displaySearchField = () => {
     setShowSearch(true);
 
@@ -115,20 +110,19 @@ export default ({
       onChangeFilterString,
       onFocus,
       onBlurretrieveSearchFieldReference,
-      retrieveSearchFieldReference
+      retrieveSearchFieldReference,
     });
   } else {
     if (filterString) {
       return renderFilterString({displaySearchField, filterString});
-    } else
+    } else {
       return renderWithSearchButton({
         title,
         displaySearchField,
-        displaySearchField,
-        filterString,
         filterString,
         titleIcon,
-        toListLabels
+        toListLabels,
       });
+    }
   }
 };

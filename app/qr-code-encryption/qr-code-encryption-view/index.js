@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
+import {encryptedQrCodeTextConfig, menusConfig} from '../../configs';
 
+import {ViewWithTabMenu} from '../../components';
 
-
-
-
-import { encryptedQrCodeTextConfig, menusConfig } from "../../configs";
-
-import { ViewWithTabMenu } from "../../components";
-
-
-import { QRCodeView } from "../../qr-code-view";
-import EncryptContentView from "../encrypt-content-view";
+import {QRCodeView} from '../../qr-code-view';
+import EncryptContentView from '../encrypt-content-view';
 
 const ACT_TYPE = {
   HOME: 1,
   ENCRYPT_CONTENT: 2,
-  DISPLAY_QR_CODE: 3
-}
+  DISPLAY_QR_CODE: 3,
+};
 
-export default ({ menuItems }) => {
+export default ({menuItems}) => {
   const [actionType, setActionType] = useState(ACT_TYPE.HOME);
   const [content, setContent] = useState('');
 
@@ -37,27 +31,31 @@ export default ({ menuItems }) => {
     setActionType(ACT_TYPE.DISPLAY_QR_CODE);
   };
   const renderEnterContentView = () => {
-    var menus = [{
-      menu: menusConfig.cancel.menu,
-      onPress: toHome
-    }];
-
+    var menus = [
+      {
+        menu: menusConfig.cancel.menu,
+        onPress: toHome,
+      },
+    ];
 
     return (
-      <EncryptContentView menuItems={menus}
+      <EncryptContentView
+        menuItems={menus}
         onContentEncrypted={onContentEncrypted}
         help={encryptedQrCodeTextConfig.encrypt.content}
-        title={encryptedQrCodeTextConfig.title} />
+        title={encryptedQrCodeTextConfig.title}
+      />
     );
   };
   const renderDisplayQRCode = () => {
     // var menuItems=[{},{
     //       menu:menusConfig.ok.menu,
-    //       onPress:()=>toHome()          
+    //       onPress:()=>toHome()
     // },{}];
 
     return (
-      <QRCodeView qrcodeContent={content}
+      <QRCodeView
+        qrcodeContent={content}
         help={encryptedQrCodeTextConfig.qrcode.content}
         help2={encryptedQrCodeTextConfig.qrcode.content2}
         title={encryptedQrCodeTextConfig.title}
@@ -67,17 +65,22 @@ export default ({ menuItems }) => {
   };
   const renderHome = () => {
     return (
-      <ViewWithTabMenu title={encryptedQrCodeTextConfig.title}
-        menuItems={menuItems} selected={menusConfig.encryptedQrCode.menu}
+      <ViewWithTabMenu
+        title={encryptedQrCodeTextConfig.title}
+        menuItems={menuItems}
+        selected={menusConfig.encryptedQrCode.menu}
         floatingButton={menusConfig.addRecord.menu}
-        onPressFloatingIcon={toEncryptContent} content={encryptedQrCodeTextConfig.content} />
+        onPressFloatingIcon={toEncryptContent}
+        content={encryptedQrCodeTextConfig.content}
+      />
     );
-  };  
+  };
   switch (actionType) {
-    case ACT_TYPE.ENCRYPT_CONTENT: return renderEnterContentView();
-    case ACT_TYPE.DISPLAY_QR_CODE: return renderDisplayQRCode();
-    default: return renderHome();
+    case ACT_TYPE.ENCRYPT_CONTENT:
+      return renderEnterContentView();
+    case ACT_TYPE.DISPLAY_QR_CODE:
+      return renderDisplayQRCode();
+    default:
+      return renderHome();
   }
-
 };
-

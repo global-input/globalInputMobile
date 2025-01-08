@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-
   Text,
   View,
   Image,
   ScrollView,
   TouchableHighlight,
-  StatusBar
+  StatusBar,
 } from 'react-native';
-import { styles, deviceDector } from "./styles";
-import DisplayHeader from "./DisplayHeader";
-import DisplayBlockText from "../display-text/DisplayBlockText";
-import { LogBox } from 'react-native'
-
-
+import {styles, deviceDector} from './styles';
+import DisplayHeader from './DisplayHeader';
+import DisplayBlockText from '../display-text/DisplayBlockText';
+import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -24,35 +21,38 @@ export default class ViewWithTabMenu extends Component {
   }
 
   renderMenuItem(menuItem, index) {
-    var key = index + "_" + menuItem.label;
+    var key = index + '_' + menuItem.label;
     if (menuItem.menu) {
       return (
-        <MenuItem menu={menuItem.menu} onPress={menuItem.onPress} selected={this.props.selected} key={key} />
+        <MenuItem
+          menu={menuItem.menu}
+          onPress={menuItem.onPress}
+          selected={this.props.selected}
+          key={key}
+        />
       );
+    } else {
+      return <View style={styles.menuItem} key={key} />;
     }
-    else {
-      return (<View style={styles.menuItem} key={key}></View>)
-    }
-
   }
   renderTitleIcon() {
     if (this.props.titleIcon) {
-      return (<Image source={this.props.titleIcon} style={styles.titleIcon} />);
-    }
-    else {
+      return <Image source={this.props.titleIcon} style={styles.titleIcon} />;
+    } else {
       return null;
     }
   }
   renderHeader() {
     if (this.props.title) {
       return (
-        <DisplayHeader title={this.props.title} titleIcon={this.props.titleIcon} />
+        <DisplayHeader
+          title={this.props.title}
+          titleIcon={this.props.titleIcon}
+        />
       );
-    }
-    else if (this.props.header) {
+    } else if (this.props.header) {
       return this.props.header;
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -63,11 +63,12 @@ export default class ViewWithTabMenu extends Component {
     }
     return (
       <View style={tab}>
-        <ScrollView horizontal={true} contentContainerStyle={styles.scrollContainer}>
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={styles.scrollContainer}>
           {this.props.menuItems.map(this.renderMenuItem.bind(this))}
         </ScrollView>
       </View>
-
     );
   }
 
@@ -78,14 +79,15 @@ export default class ViewWithTabMenu extends Component {
         iconStyle = styles.floatingIconLandscape;
       }
       return (
-        <TouchableHighlight onPress={this.props.onPressFloatingIcon} style={iconStyle}>
+        <TouchableHighlight
+          onPress={this.props.onPressFloatingIcon}
+          style={iconStyle}>
           <View style={styles.iconcontainer}>
             <Image source={this.props.floatingButton.image} />
           </View>
         </TouchableHighlight>
       );
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -97,14 +99,11 @@ export default class ViewWithTabMenu extends Component {
           <DisplayBlockText content={this.props.content} />
         </View>
       );
-    }
-    else if (this.props.message) {
+    } else if (this.props.message) {
       return this.renderMessage(this.props.message);
-    }
-    else {
+    } else {
       return null;
     }
-
   }
   renderMessage(message) {
     return (
@@ -114,10 +113,7 @@ export default class ViewWithTabMenu extends Component {
     );
   }
   renderEnd() {
-    return (
-      <View style={styles.endSpaceWhenKeyboardHiding} />
-    );
-
+    return <View style={styles.endSpaceWhenKeyboardHiding} />;
   }
   render() {
     var contentContainerStyle = styles.contentContainer;
@@ -129,7 +125,6 @@ export default class ViewWithTabMenu extends Component {
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
         <View style={contentContainerStyle}>
-
           <View>
             {this.renderContent()}
             {this.props.children}
@@ -145,45 +140,39 @@ export default class ViewWithTabMenu extends Component {
     if (event && event.nativeEvent && event.nativeEvent.layout) {
       this.forceUpdate();
     }
-
-
   }
-
 }
 
-
-
-
 class MenuItem extends Component {
-
   renderLabel() {
     if (this.props.menu && this.props.menu.label) {
       var menuText = styles.menuText;
       if (this.props.selected === this.props.menu) {
         menuText = styles.menuTextSelected;
       }
-      return (<Text style={menuText}>{this.props.menu.label}</Text>);
-    }
-    else {
+      return <Text style={menuText}>{this.props.menu.label}</Text>;
+    } else {
       return null;
     }
   }
   renderImage() {
     if (this.props.menu && this.props.menu.image) {
       var image = this.props.menu.image;
-      if (this.props.menu.imageSelected && this.props.selected === this.props.menu) {
+      if (
+        this.props.menu.imageSelected &&
+        this.props.selected === this.props.menu
+      ) {
         image = this.props.menu.imageSelected;
       }
-      return (<Image source={image} />);
-    }
-    else {
+      return <Image source={image} />;
+    } else {
       return null;
     }
   }
   render() {
     var iconContainerStyle = styles.iconcontainer;
     if (this.props.selected === this.props.menu) {
-      iconContainerStyle = styles.iconcontainerSelected
+      iconContainerStyle = styles.iconcontainerSelected;
     }
     return (
       <TouchableHighlight onPress={this.props.onPress} style={styles.menuItem}>
@@ -193,7 +182,5 @@ class MenuItem extends Component {
         </View>
       </TouchableHighlight>
     );
-
   }
-
 }
