@@ -1194,7 +1194,7 @@ PODS:
     - React-utils (= 0.74.0)
   - RNCAsyncStorage (1.12.1):
     - React-Core
-  - RNCClipboard (1.14.1):
+  - RNCClipboard (1.15.0):
     - React-Core
   - RNSVG (15.2.0):
     - React-Core
@@ -1446,11 +1446,11 @@ SPEC CHECKSUMS:
   React-utils: f013537c3371270d2095bff1d594d00d4bc9261b
   ReactCommon: 2cde697fd80bd31da1d6448d25a5803088585219
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
-  RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
+  RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 56f906bf6c11c931588191dde1229fd3e4e3d557
 
-PODFILE CHECKSUM: 19ca5bb045438d5512708fffc5e2ce45eb0d402f
+PODFILE CHECKSUM: 0ef68970ce5418c9fced1bc82a79b88b9070621a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

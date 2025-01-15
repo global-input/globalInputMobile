@@ -17,10 +17,13 @@ end
 target 'globalInputApp' do
   config = use_native_modules!
 
+  # Add Hermes support in React Native
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    # Enable Hermes
+    :hermes_enabled => true
   )
 
   target 'globalInputAppTests' do
