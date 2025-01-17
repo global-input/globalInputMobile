@@ -893,6 +893,34 @@ export default class ApplicationSettingsData {
       return null;
     }
   }
+  addCodeDataHistoryRecord(codeData) {
+    const historyData = userSettings.getHistoryData(this.store);
+    const newRecord = {
+      id: codeData.session,
+      time: new Date().getTime(),
+      codeData,
+    };
+
+    const updatedHistoryData = historyData.filter(
+      record => record.id !== newRecord.id,
+    );
+    if (updatedHistoryData.length > 10) {
+      updatedHistoryData.pop();
+    }
+    updatedHistoryData.unshift(newRecord);
+    userSettings.setHistoryData(this.store, updatedHistoryData);
+  }
+  getHistoryData() {
+    return userSettings.getHistoryData(this.store);
+  }
+  removeCodeDataFromHistory(codeData) {
+    const historyData = userSettings.getHistoryData(this.store);
+    const updatedHistoryData = historyData.filter(
+      record => record.id !== codeData.session,
+    );
+    userSettings.setHistoryData(this.store, updatedHistoryData);
+  }
+
   userAppLoginSetup(password, remember) {
     if (!password) {
       console.log('password is empty');

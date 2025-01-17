@@ -64,8 +64,10 @@ export default () => {
   const toUserLoginScreen = () => setRender(menusConfig.userLogin.menu);
   const toManageFormData = () => setRender(menusConfig.manageFormData.menu);
 
-  const toGlobalInput = codedata =>
+  const toGlobalInput = codedata => {
     setCompData({...compData, render: menusConfig.form.menu, codedata});
+    appdata.addCodeDataHistoryRecord(codedata);
+  };
   const toImportProtectedEncryptionKey = codedata =>
     setCompData({
       ...compData,

@@ -14,6 +14,7 @@ const ActionNames = {
   MERGE_FORMS: 'MERGE_FORMS',
   RESET_APP: 'RESET_APP',
   REMEMBERED_PASSWORD: 'rememberedPassword',
+  HISTORY_DATA: 'history_data_gia',
 };
 
 export function generateRandomString(length = 10) {
@@ -104,6 +105,10 @@ export const userSettings = {
       case ActionNames.REMEMBERED_PASSWORD:
         return Object.assign({}, state, {
           rememberedPassword: action.rememberedPassword,
+        });
+      case ActionNames.HISTORY_DATA:
+        return Object.assign({}, state, {
+          historyData: action.historyData,
         });
       case ActionNames.MERGE_FORM_DATA:
         var formData = action.formData;
@@ -278,6 +283,12 @@ export const userSettings = {
       rememberedPassword,
     };
   },
+  historyData: function (historyData) {
+    return {
+      type: ActionNames.HISTORY_DATA,
+      historyData,
+    };
+  },
 };
 
 export const getEncryptionKeyList = store =>
@@ -363,3 +374,9 @@ export const rememberPassword = (store, rememberedPassword) =>
 
 export const getRememberedPassword = store =>
   store.getState().userSettings.rememberedPassword;
+
+export const setHistoryData = (store, historyData) =>
+  store.dispatch(userSettings.historyData(historyData));
+
+export const getHistoryData = store =>
+  store.getState().userSettings.historyData;
