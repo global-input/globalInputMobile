@@ -236,5 +236,12 @@ const menusConfig = {
       {image: images.device.checkbox.checked},
     ],
   },
+  codeDataHistory: {
+    menu: {
+      label: 'History',
+      image: images.historyIcon,
+      imageSelected: images.historyIconSelected,
+    },
+  },
 };
 export default menusConfig;

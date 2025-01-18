@@ -102,7 +102,7 @@ const images = {
   updownIcon: require('../images/up-down-icon.png'),
   tickonIcon: require('../images/tick-on-icon.png'),
   tickoffIcon: require('../images/tick-off-icon.png'),
-
+  historyIcon: require('../images/history.png'),
   device: {
     backIcon: require('../images/device/back-icon.png'),
     printIcon: require('../images/device/print-icon.png'),

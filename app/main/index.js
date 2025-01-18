@@ -23,6 +23,7 @@ import {ImportEncryptionKeyView} from '../import-encryption-key';
 import {ImportSettingsView} from '../import-settings';
 import {ManageKeysView} from '../others/manage-keys';
 import {QRCodeEncryptionView} from '../qr-code-encryption';
+import ManageCodeDataHistory from '../code-data-history/ManageCodeDataHistory';
 const initialData = {
   render: menusConfig.loading.menu,
   codedata: '',
@@ -82,6 +83,9 @@ export default () => {
       render: menusConfig.notProtectedEncryptionKey.menu,
       codedata,
     });
+
+  const toCodeDataHistory = () => setRender(menusConfig.codeDataHistory.menu);
+
   const logout = () => toUserLoginScreen();
 
   const toCameraView = () => {
@@ -189,6 +193,10 @@ export default () => {
         menu: menusConfig.others.menu,
         onPress: toSettingsScreen,
       },
+      {
+        menu: menusConfig.codeDataHistory.menu,
+        onPress: toCodeDataHistory,
+      },
     ];
   };
 
@@ -291,6 +299,13 @@ export default () => {
 
     case menusConfig.encryptedQrCode.menu:
       return <QRCodeEncryptionView menuItems={menuItems} />;
+    case menusConfig.codeDataHistory.menu:
+      return (
+        <ManageCodeDataHistory
+          menuItems={menuItems}
+          onCodeSelected={toGlobalInput}
+        />
+      );
     default:
       return <LoadingScreen message={compData.message} />;
   }

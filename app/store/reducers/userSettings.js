@@ -34,6 +34,7 @@ function createInitialState() {
     appLoginContent: null,
     encryptionKeyList: [],
     rememberedPassword: null,
+    historyData: [],
   };
 }
 
@@ -378,5 +379,10 @@ export const getRememberedPassword = store =>
 export const setHistoryData = (store, historyData) =>
   store.dispatch(userSettings.historyData(historyData));
 
-export const getHistoryData = store =>
-  store.getState().userSettings.historyData;
+export const getHistoryData = store => {
+  const historyData = store.getState().userSettings.historyData;
+  if (!historyData) {
+    return [];
+  }
+  return historyData;
+};
