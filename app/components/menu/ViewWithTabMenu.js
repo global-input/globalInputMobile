@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles, deviceDector} from './styles';
 import DisplayHeader from './DisplayHeader';
 import DisplayBlockText from '../display-text/DisplayBlockText';
@@ -15,6 +16,23 @@ import {LogBox} from 'react-native';
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ]);
+
+const SafeAreaWrapper = ({children, style}) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      style={[
+        style,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
+      {children}
+    </View>
+  );
+};
+
 export default class ViewWithTabMenu extends Component {
   constructor(props) {
     super(props);
@@ -62,13 +80,13 @@ export default class ViewWithTabMenu extends Component {
       tab = styles.tabLandscape;
     }
     return (
-      <View style={tab}>
+      <SafeAreaWrapper style={tab}>
         <ScrollView
           horizontal={true}
           contentContainerStyle={styles.scrollContainer}>
           {this.props.menuItems.map(this.renderMenuItem.bind(this))}
         </ScrollView>
-      </View>
+      </SafeAreaWrapper>
     );
   }
 
@@ -121,7 +139,7 @@ export default class ViewWithTabMenu extends Component {
       contentContainerStyle = styles.contentContainerLandscape;
     }
     return (
-      <View style={styles.container} onLayout={this.layoutChanged.bind(this)}>
+      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
         <View style={contentContainerStyle}>
@@ -133,9 +151,10 @@ export default class ViewWithTabMenu extends Component {
         </View>
         {this.rendeFloatingIcon()}
         {this.renderTab()}
-      </View>
+      </SafeAreaView>
     );
   }
+
   layoutChanged(event) {
     if (event && event.nativeEvent && event.nativeEvent.layout) {
       this.forceUpdate();
