@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   Keyboard,
   StatusBar,
+  StyleSheet,
 } from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles, deviceDector} from './styles';
@@ -16,19 +17,17 @@ import DisplayHeader from './DisplayHeader';
 
 const TabWrapper = ({children, style, keyboardShowing}) => {
   const insets = useSafeAreaInsets();
-  return (
-    <View
-      style={[
-        style,
-        {
-          paddingBottom: keyboardShowing ? 0 : insets.bottom,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}>
-      {children}
-    </View>
-  );
+
+  // Create dynamic styles outside JSX
+  const dynamicStyles = StyleSheet.create({
+    safeArea: {
+      paddingBottom: keyboardShowing ? 0 : insets.bottom,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+    },
+  });
+
+  return <View style={[style, dynamicStyles.safeArea]}>{children}</View>;
 };
 
 export default class EditorWithTabMenu extends Component {
