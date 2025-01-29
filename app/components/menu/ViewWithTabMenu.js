@@ -24,7 +24,6 @@ const SafeAreaWrapper = ({children, style}) => {
       style={[
         style,
         {
-          paddingTop: insets.top,
           paddingBottom: insets.bottom,
         },
       ]}>
@@ -77,6 +76,7 @@ export default class ViewWithTabMenu extends Component {
   renderTab() {
     var tab = styles.tab;
     if (deviceDector.isLandscapeMode()) {
+      console.log('**********LANDSCAPE**********');
       tab = styles.tabLandscape;
     }
     return (
@@ -96,6 +96,7 @@ export default class ViewWithTabMenu extends Component {
       if (deviceDector.isLandscapeMode()) {
         iconStyle = styles.floatingIconLandscape;
       }
+
       return (
         <TouchableHighlight
           onPress={this.props.onPressFloatingIcon}
@@ -146,10 +147,11 @@ export default class ViewWithTabMenu extends Component {
           <View>
             {this.renderContent()}
             {this.props.children}
+
             {this.renderEnd()}
           </View>
+          {this.rendeFloatingIcon()}
         </View>
-        {this.rendeFloatingIcon()}
         {this.renderTab()}
       </SafeAreaView>
     );

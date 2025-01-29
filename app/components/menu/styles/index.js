@@ -67,6 +67,7 @@ var stylesData = {
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(72,128,237,1)',
+
     width: '100%',
     borderColor: '#333333',
     borderStyle: 'solid',
@@ -77,7 +78,6 @@ var stylesData = {
 
     zIndex: 100,
     paddingHorizontal: 16,
-    paddingBottom: 34,
   },
   tabOnTop: {
     backgroundColor: 'rgba(72,128,237,1)',
@@ -104,7 +104,7 @@ var stylesData = {
 
   floatingIcon: {
     margin: 0,
-    bottom: 70,
+    bottom: 250,
     right: 10,
     position: 'absolute',
     paddingLeft: 0,
@@ -114,7 +114,7 @@ var stylesData = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 100,
+    zIndex: 200,
   },
   notificationBar: {
     margin: 0,

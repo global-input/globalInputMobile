@@ -193,8 +193,6 @@ export default () => {
     ];
 
     const codeDataHistory = appdata.getHistoryData();
-    console.log('***xcodehist length: ' + codeDataHistory.length);
-
     if (codeDataHistory && codeDataHistory.length > 0) {
       menuItems.unshift({
         menu: menusConfig.codeDataHistory.menu,
