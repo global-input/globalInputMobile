@@ -8,10 +8,28 @@ import {
   Keyboard,
   StatusBar,
 } from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles, deviceDector} from './styles';
 import NotificationBar from './NotificationBar';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DisplayHeader from './DisplayHeader';
+
+const TabWrapper = ({children, style, keyboardShowing}) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      style={[
+        style,
+        {
+          paddingBottom: keyboardShowing ? 0 : insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}>
+      {children}
+    </View>
+  );
+};
 
 export default class EditorWithTabMenu extends Component {
   constructor(props) {
@@ -97,13 +115,13 @@ export default class EditorWithTabMenu extends Component {
       }
 
       return (
-        <View style={tabOnTopStyle}>
+        <TabWrapper style={tabOnTopStyle} keyboardShowing={true}>
           <ScrollView
             horizontal={true}
             contentContainerStyle={styles.scrollContainer}>
             {this.props.menuItems.map(this.renderMenuItem.bind(this))}
           </ScrollView>
-        </View>
+        </TabWrapper>
       );
     } else {
       var tab = styles.tab;
@@ -111,16 +129,17 @@ export default class EditorWithTabMenu extends Component {
         tab = styles.tabLandscape;
       }
       return (
-        <View style={tab}>
+        <TabWrapper style={tab} keyboardShowing={false}>
           <ScrollView
             horizontal={true}
             contentContainerStyle={styles.scrollContainer}>
             {this.props.menuItems.map(this.renderMenuItem.bind(this))}
           </ScrollView>
-        </View>
+        </TabWrapper>
       );
     }
   }
+
   renderEnd() {
     if (this.state.keyboardshowing) {
       return <View style={styles.endSpaceWhenKeyboardShowing} />;
@@ -134,15 +153,20 @@ export default class EditorWithTabMenu extends Component {
       contentContainerStyle = styles.contentContainerLandscape;
     }
     return (
-      <View style={styles.container} onLayout={this.layoutChanged.bind(this)}>
+      <SafeAreaView
+        style={[styles.container, {backgroundColor: 'rgba(72,128,237,1)'}]}
+        edges={['top', 'bottom']}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
         {this.renderTab()}
         {this.renderNotificationBar()}
-        <KeyboardAwareScrollView extraScrollHeight={100}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={100}
+          enableOnAndroid
+          keyboardShouldPersistTaps="handled">
           <View style={contentContainerStyle}>{this.props.children}</View>
         </KeyboardAwareScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
   layoutChanged(event) {

@@ -9,7 +9,8 @@ var stylesData = {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,1)',
+
+    backgroundColor: 'rgba(72,128,237,1)',
   },
   header: {
     backgroundColor: 'rgba(72,128,237,1)',
