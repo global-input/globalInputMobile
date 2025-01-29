@@ -170,11 +170,9 @@ export default () => {
       }
     }
   };
-  const encryptedQRCodeSelected = () =>
-    setActionType(ACT_TYPE.ENCRYPTED_QR_CODE);
 
   const buildMenuItems = () => {
-    return [
+    const menuItems = [
       {
         menu: menusConfig.eye.menu,
         onPress: toCameraView,
@@ -192,11 +190,18 @@ export default () => {
         menu: menusConfig.others.menu,
         onPress: toSettingsScreen,
       },
-      {
+    ];
+
+    const codeDataHistory = appdata.getHistoryData();
+    console.log('***xcodehist length: ' + codeDataHistory.length);
+
+    if (codeDataHistory && codeDataHistory.length > 0) {
+      menuItems.unshift({
         menu: menusConfig.codeDataHistory.menu,
         onPress: toCodeDataHistory,
-      },
-    ];
+      });
+    }
+    return menuItems;
   };
 
   useEffect(() => {

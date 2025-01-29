@@ -1,3 +1,4 @@
-const qrCode = '';
+const qrCode =
+  'AU2FsdGVkX18NVo22m/qKvCkcHj+pLktJw53QmOQ8TKuDhkQ5U05bEUaM7zV7Wx6j45nbQeWLisc6XNAidkxF9ocKcvQuqzq//nzTnGT68dSI5Z3FCeJkQc6pm1epkBCdTjmSqqtxua+I0elpIGQgizORHwILjJK4y590PCgFp4zRMzqlMdnt4VmzHnOh9RuWE4z0jxGgZ6N2l7Jb6bDuE5mCGt4//OzSR63k6m7segU%3D';
 
 export {qrCode};
