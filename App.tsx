@@ -6,11 +6,16 @@
  */
 
 import React from 'react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import Main from './app/main';
 
 const App = () => {
-  return <Main />;
+  return (
+    <SafeAreaProvider>
+      <Main />
+    </SafeAreaProvider>
+  );
 };
 
 export default App;
