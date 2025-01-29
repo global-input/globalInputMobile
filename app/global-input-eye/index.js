@@ -32,7 +32,9 @@ import {
 // SafeAreaView wrapper styled component
 const SafeContainer = styled(SafeAreaView)`
   flex: 1;
-  background-color: ${props => props.theme.backgroundColor || '#000'};
+
+  background-color: ${props =>
+    props.theme.backgroundColor || 'rgba(72,128,237,1)'};
 `;
 // Updated TabMenu container with safe area padding
 const TabMenuContainer = styled(View)`
