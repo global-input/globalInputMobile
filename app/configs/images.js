@@ -60,6 +60,7 @@ const images = {
   changePassword: require('../images/change-password.png'),
   encryptIcon: require('../images/encrypt-icon.png'),
   encryptedQR: require('../images/encrypted-qr.png'),
+  encryptedQRBlack: require('../images/encrypted-qr-black.png'),
   encryptedQRSelected: require('../images/encrypted-qr-selected.png'),
   keyIcon: require('../images/key-icon.png'),
   keyIconSelected: require('../images/key-icon-selected.png'),

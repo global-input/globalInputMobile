@@ -8,15 +8,18 @@ import {
   Linking,
   Vibration,
   ScrollView,
+  SafeAreaView,
+  Platform,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import styled from 'styled-components/native';
 import {createMessageConnector} from '../global-input-message';
 
 ////globa_input_eye////
 import {styles, deviceDector} from './styles';
 
 import {appdata} from '../store';
-import {TabMenu, IconButton} from '../components';
+import {IconButton, TabMenu} from '../components';
 
 import {eyeTextConfig, menusConfig} from '../configs';
 
@@ -25,6 +28,34 @@ import {
   PendingAuthorizartionView,
   NotAuthorizedView,
 } from '../camera-not-authorized';
+
+// SafeAreaView wrapper styled component
+const SafeContainer = styled(SafeAreaView)`
+  flex: 1;
+  background-color: ${props => props.theme.backgroundColor || '#000'};
+`;
+// Updated TabMenu container with safe area padding
+const TabMenuContainer = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-horizontal: ${Platform.OS === 'ios' ? '16px' : '0px'};
+  padding-bottom: ${Platform.OS === 'ios' ? '8px' : '0px'};
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+// Menu button with proper spacing
+const MenuButton = styled.TouchableOpacity`
+  padding: 12px;
+  min-width: 60px;
+  align-items: center;
+  justify-content: center;
+`;
+
+// Main component wrapper
+const MainContainer = styled(View)`
+  flex: 1;
+`;
 
 const initialState = {
   message: '',
@@ -100,7 +131,6 @@ const sendAppLaunchedEvent = (url, session, code) => {
   if (query.length > 0) {
     finalUrl += `?${query.join('&')}`;
   }
-
   // Send the request
   fetch(finalUrl)
     .then(response => response.json())
@@ -201,6 +231,12 @@ export default ({
       setContentAndMessage(
         'Please scan the QR Code displayed',
         'Global Input App Launched',
+      );
+      console.log(
+        '**********',
+        launchData.url,
+        launchData.session,
+        launchData.code,
       );
       sendAppLaunchedEvent(launchData.url, launchData.session, launchData.code);
       return;
@@ -343,33 +379,24 @@ export default ({
 
     ////processCodeData////
     return (
-      <View style={styles.container} onLayout={layoutChanged}>
-        <RNCamera
-          ref={cam => {
-            camera.current = cam;
-          }}
-          captureAudio={false}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'Permission to use camera for scanning QR Codes',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          style={styles.preview}
-          // onGoogleVisionBarcodesDetected={onCodeDataReceived}
-          onBarCodeRead={onCodeDataReceived}>
-          <DisplayMarker markerContainer={markerContainer} />
-        </RNCamera>
-        {renderHeader()}
-
-        {renderDisplayCodeDataContent()}
-
-        <TabMenu
-          menuItems={menuItems}
-          selected={menusConfig.eye.menu}
-          transparent={true}
-        />
-      </View>
+      <SafeContainer>
+        <MainContainer>
+          <RNCamera
+            ref={camera}
+            captureAudio={false}
+            style={{flex: 1}}
+            onBarCodeRead={onCodeDataReceived}>
+            <DisplayMarker markerContainer={markerContainer} />
+          </RNCamera>
+          {renderHeader()}
+          {renderDisplayCodeDataContent()}
+          <TabMenu
+            menuItems={menuItems}
+            selected={menusConfig.eye.menu}
+            transparent={true}
+          />
+        </MainContainer>
+      </SafeContainer>
     );
   };
   if (isAuthorized) {

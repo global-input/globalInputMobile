@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {qrCode} from './tesddata'; // Import test data from a separate file
+import {qrCode} from './test-code'; // Import test data from a separate file
 
 const useMockQRScanner = onCodeDataReceived => {
   useEffect(() => {

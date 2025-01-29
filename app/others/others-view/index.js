@@ -25,7 +25,7 @@ const ACT_TYPE = {
   HELP: 7,
   DELETE_ALL_DATA: 8,
 };
-export default ({menuItems, logout}) => {
+export default ({menuItems, logout, encryptedQRCodeSelected}) => {
   const [actionType, setActionType] = useState(ACT_TYPE.MAIN);
   const [content, setContent] = useState('');
 
@@ -80,6 +80,13 @@ export default ({menuItems, logout}) => {
           menuItems={menuItems}
           selected={menusConfig.others.menu}>
           <View style={styles.iconContainer}>
+            <View style={styles.icon}>
+              <IconButton
+                label={menusConfig.encryptedQrCode.menu.label}
+                image={images.encryptedQRBlack}
+                onPress={encryptedQRCodeSelected}
+              />
+            </View>
             <View style={styles.icon}>
               <IconButton
                 label={menusConfig.exportButton.menu.label}

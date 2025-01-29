@@ -170,6 +170,8 @@ export default () => {
       }
     }
   };
+  const encryptedQRCodeSelected = () =>
+    setActionType(ACT_TYPE.ENCRYPTED_QR_CODE);
 
   const buildMenuItems = () => {
     return [
@@ -185,10 +187,7 @@ export default () => {
         menu: menusConfig.manageKeys.menu,
         onPress: toManageKeys,
       },
-      {
-        menu: menusConfig.encryptedQrCode.menu,
-        onPress: toEncryptedQRCode,
-      },
+
       {
         menu: menusConfig.others.menu,
         onPress: toSettingsScreen,
@@ -239,7 +238,13 @@ export default () => {
     case menusConfig.help.menu:
       return <HelpScreen menuItems={menuItems} />;
     case menusConfig.others.menu:
-      return <OthersView menuItems={menuItems} logout={logout} />;
+      return (
+        <OthersView
+          menuItems={menuItems}
+          logout={logout}
+          encryptedQRCodeSelected={toEncryptedQRCode}
+        />
+      );
     case menusConfig.form.menu:
       return (
         <GlobalInputConnector

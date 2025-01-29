@@ -73,8 +73,10 @@ var stylesData = {
     paddingTop: 5,
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: 5,
+
     zIndex: 100,
+    paddingHorizontal: 16,
+    paddingBottom: 34,
   },
   tabOnTop: {
     backgroundColor: 'rgba(72,128,237,1)',
