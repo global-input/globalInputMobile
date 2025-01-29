@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Clipboard} from 'react-native';
+import {View} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard'; // Updated import
 
 import IconButton from './IconButton';
 
